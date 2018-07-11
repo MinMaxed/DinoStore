@@ -15,6 +15,7 @@ namespace ECommerse.Data
         public ECommerseDBContext(DbContextOptions<ECommerseDBContext>options) : base(options)
         { }
 
+
         DbSet<Product> Dinosaurs { get; set; }
     }
 }
