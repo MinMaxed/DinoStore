@@ -2,9 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <UserSecretsId>ae37e62e-c568-4c5e-82df-fc79f61a3039</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Views\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
