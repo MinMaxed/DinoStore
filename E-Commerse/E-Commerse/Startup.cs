@@ -25,9 +25,6 @@ namespace ECommerse
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-
-            //services.AddIdentity<>();
-
             services.AddScoped<IInventory, DevInventory>();
         }
 
