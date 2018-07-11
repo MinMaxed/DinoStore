@@ -32,6 +32,7 @@ namespace ECommerse
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddScoped<IInventory, DevInventory>();
 
             services.AddDbContext<ECommerseDBContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("ProductionConnection")));
