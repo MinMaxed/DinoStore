@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ECommerse.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -27,7 +28,7 @@ namespace ECommerse
 
             //services.AddIdentity<>();
 
-            //services.AddScoped<>();
+            services.AddScoped<IInventory, DevInventory>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
