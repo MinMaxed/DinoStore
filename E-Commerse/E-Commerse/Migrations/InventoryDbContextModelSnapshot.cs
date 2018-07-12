@@ -7,8 +7,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ECommerse.Migrations
 {
-    [DbContext(typeof(ECommerseDBContext))]
-    partial class ECommerseDBContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(InventoryDbContext))]
+    partial class InventoryDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -36,7 +36,7 @@ namespace ECommerse.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Dinosaurs");
+                    b.ToTable("Products");
                 });
 #pragma warning restore 612, 618
         }

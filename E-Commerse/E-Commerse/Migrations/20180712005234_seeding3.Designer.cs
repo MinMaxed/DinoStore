@@ -8,9 +8,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ECommerse.Migrations
 {
-    [DbContext(typeof(ECommerseDBContext))]
-    [Migration("20180711181448_ECommerseDBContext")]
-    partial class ECommerseDBContext
+    [DbContext(typeof(InventoryDbContext))]
+    [Migration("20180712005234_seeding3")]
+    partial class seeding3
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -38,7 +38,7 @@ namespace ECommerse.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Dinosaurs");
+                    b.ToTable("Products");
                 });
 #pragma warning restore 612, 618
         }
