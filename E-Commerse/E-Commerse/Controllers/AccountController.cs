@@ -29,6 +29,14 @@ namespace ECommerse.Controllers
         }
 
         [AllowAnonymous]
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel rvm)
         {
@@ -73,9 +81,45 @@ namespace ECommerse.Controllers
 
                     return RedirectToAction("Index", "Home");
                 }
-
             }
             return View(rvm);
+        }
+
+
+        [AllowAnonymous]
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginViewModel lvm)
+        {
+            if(ModelState.IsValid)
+            {
+                var result = await _signInManager.PasswordSignInAsync(lvm.Email, lvm.Password, false, false);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Enter in your credentials");
+                }
+
+            }
+            return View(lvm);
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            TempData["LoggedOut"] = "User has successfully logged out";
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }
