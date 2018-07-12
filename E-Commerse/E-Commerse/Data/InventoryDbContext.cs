@@ -11,7 +11,7 @@ namespace ECommerse.Data
     {
         public InventoryDbContext(DbContextOptions<InventoryDbContext> options) : base(options)
         {
-
+            
         }
 
         public DbSet<Product> Products { get; set; }

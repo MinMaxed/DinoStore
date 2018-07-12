@@ -3,12 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ECommerse.Migrations
 {
-    public partial class ECommerseDBContext : Migration
+    public partial class seeding3 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Dinosaurs",
+                name: "Products",
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
@@ -21,14 +21,14 @@ namespace ECommerse.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Dinosaurs", x => x.ID);
+                    table.PrimaryKey("PK_Products", x => x.ID);
                 });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Dinosaurs");
+                name: "Products");
         }
     }
 }
