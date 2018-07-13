@@ -61,7 +61,7 @@ namespace ECommerse.Controllers
                 /// for things like birthday discounts 
                 if (result.Succeeded)
                 {
-                    Claim nameClaim = new Claim(ClaimTypes.Name, $"{user.FirstName} {user.LastName}");
+                    Claim nameClaim = new Claim("FullName", $"{user.FirstName} {user.LastName}");
                     Claim birthdayClaim = new Claim(ClaimTypes.DateOfBirth,
                         new DateTime(user.Birthday.Year,
                         user.Birthday.Month,
@@ -104,6 +104,7 @@ namespace ECommerse.Controllers
 
                 if (result.Succeeded)
                 {
+                    bool test = _signInManager.IsSignedIn(User);
                     return RedirectToAction("Index", "Home");
                 }
                 else

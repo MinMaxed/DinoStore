@@ -1,7 +1,29 @@
-﻿
+﻿@using Microsoft.AspNetCore.Identity
+@using ECommerse.Models
+@using System.Security.Claims
+
+@inject UserManager<ApplicationUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
+
+
 @{
     ViewData["Title"] = "Index";
 }
 
 <h2>Home Index</h2>
 
+@if (TempData["LoggedOut"] != null)
+{
+    <p>@TempData["Loggedout"]</p>
+
+}
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <h3>Hello @User.Identity.Name</h3>
+    <h4>Your name is @User.Claims.First(c => c.Type == "FullName").Value</h4>
+}
+else
+{
+    <h3>Hello Stranger</h3>
+}

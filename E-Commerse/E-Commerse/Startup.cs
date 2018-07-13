@@ -60,9 +60,9 @@ namespace ECommerse
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseAuthentication();
             app.UseMvcWithDefaultRoute();
             app.UseStaticFiles();
-            app.UseAuthentication();
 
             app.Run(async (context) =>
             {
