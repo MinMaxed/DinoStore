@@ -21,8 +21,8 @@ namespace ECommerse
         public Startup(IConfiguration configuration)
         {
 
-            //var builder = new ConfigurationBuilder().AddEnvironmentVariables();
-            //builder.AddUserSecrets<Startup>();
+            var builder = new ConfigurationBuilder().AddEnvironmentVariables();
+            builder.AddUserSecrets<Startup>();
             //Configuration = builder.Build();
 
             //for local
@@ -36,14 +36,16 @@ namespace ECommerse
             services.AddMvc();
             services.AddScoped<IInventory, DevInventory>();
 
+
             services.AddDbContext<InventoryDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+
             //services.AddDbContext<InventoryDbContext>(options =>
             //   options.UseSqlServer(Configuration.GetConnectionString("ProductionConnection")));
-
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -64,8 +66,9 @@ namespace ECommerse
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-            app.UseStaticFiles();
             app.UseAuthentication();
+            app.UseMvcWithDefaultRoute();
+            app.UseStaticFiles();
 
             app.Run(async (context) =>
             {
