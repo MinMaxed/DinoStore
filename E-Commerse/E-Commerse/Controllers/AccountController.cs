@@ -23,6 +23,7 @@ namespace ECommerse.Controllers
             _signInManager = signInManager;
         }
 
+        [AllowAnonymous]
         public IActionResult Index()
         {
             return View();

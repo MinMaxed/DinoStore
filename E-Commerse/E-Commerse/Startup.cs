@@ -23,10 +23,10 @@ namespace ECommerse
 
             var builder = new ConfigurationBuilder().AddEnvironmentVariables();
             builder.AddUserSecrets<Startup>();
-            Configuration = builder.Build();
+            //Configuration = builder.Build();
 
             //for local
-            //Configuration = configuration;
+            Configuration = configuration;
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -36,11 +36,15 @@ namespace ECommerse
             services.AddMvc();
             services.AddScoped<IInventory, DevInventory>();
 
-            //services.AddDbContext<InventoryDbContext>(options =>
-            //    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
             services.AddDbContext<InventoryDbContext>(options =>
-               options.UseSqlServer(Configuration.GetConnectionString("ProductionConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+
+            //services.AddDbContext<InventoryDbContext>(options =>
+            //   options.UseSqlServer(Configuration.GetConnectionString("ProductionConnection")));
 
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
@@ -56,7 +60,7 @@ namespace ECommerse
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseMvc();
+            app.UseMvcWithDefaultRoute();
             app.UseStaticFiles();
             app.UseAuthentication();
 
