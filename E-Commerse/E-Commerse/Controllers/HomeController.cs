@@ -21,6 +21,10 @@ namespace ECommerse.Controllers
         // GET: /<controller>/
         public IActionResult Index()
         {
+            if (User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Admin");
+            }
             return View();
         }
     }

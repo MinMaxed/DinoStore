@@ -50,7 +50,7 @@ namespace ECommerse.Controllers
                     UserName = rvm.Email,
                     Email = rvm.Email,
                     FirstName = rvm.FirstName,
-                    LastName = rvm.FirstName,
+                    LastName = rvm.LastName,
                     Birthday = rvm.Birthday
                 };
 
@@ -61,7 +61,7 @@ namespace ECommerse.Controllers
                 /// for things like birthday discounts 
                 if (result.Succeeded)
                 {
-                    Claim nameClaim = new Claim("FullName", $"{user.FirstName} {user.LastName}");
+                    Claim nameClaim = new Claim("FirstName", user.FirstName);
                     Claim birthdayClaim = new Claim(ClaimTypes.DateOfBirth,
                         new DateTime(user.Birthday.Year,
                         user.Birthday.Month,
@@ -75,6 +75,11 @@ namespace ECommerse.Controllers
                     claims.Add(emailClaim);
 
                     await _userManager.AddClaimsAsync(user, claims);
+
+                    if (user.Email.Substring(user.Email.IndexOf('@')) == "@dinostore.com")
+                    {
+                        await _userManager.AddToRoleAsync(user, ApplicationRoles.Admin);
+                    }
 
                     await _userManager.AddToRoleAsync(user, ApplicationRoles.Member);
 
