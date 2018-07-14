@@ -8,10 +8,10 @@ namespace ECommerse.Models
 {
     public interface IInventory
     {
-        Task<IActionResult> Create(Product product);
-        Task<IActionResult> GetAll();
-        Task<IActionResult> GetByID(int id);
-        Task<IActionResult> Update(int id, Product product);
-        Task<IActionResult> Delete(int id);
+        void CreateProduct(Product product);
+        IEnumerable<Product> GetAllProducts();
+        Product GetProductByID(int? id);
+        void UpdateProduct(int id, Product product);
+        void DeleteProduct(int id);
     }
 }
