@@ -36,7 +36,6 @@ namespace ECommerse
             services.AddMvc();
             services.AddScoped<IInventory, DevInventory>();
 
-
             services.AddDbContext<InventoryDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
