@@ -1,0 +1,16 @@
+﻿@{
+    ViewBag.Title = "DinoStore - Home";
+}
+
+@if (TempData["LoggedOut"] != null)
+{
+    <p>@TempData["Loggedout"]</p>
+
+}
+
+<main>
+    <div class="container" style="text-align:center">
+        <h1>Welcome to DinoStore!</h1>
+        <h3>The #1 place to buy REAL dinosaurs!</h3>
+    </div>
+</main>

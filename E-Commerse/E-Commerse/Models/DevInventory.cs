@@ -16,29 +16,35 @@ namespace ECommerse.Models
             _context = context;
         }
 
-        public Task<IActionResult> Create(Product product)
+        public void CreateProduct(Product product)
         {
-            throw new NotImplementedException();
+            _context.Products.Add(product);
+            _context.SaveChanges();
         }
 
-        public Task<IActionResult> Delete(int id)
+        public void DeleteProduct(int id)
         {
-            throw new NotImplementedException();
+            Product deleteProduct = _context.Products.Single<Product>(p => p.ID == id);
+            _context.Products.Remove(deleteProduct);
+            _context.SaveChanges();
         }
 
-        public Task<IActionResult> GetAll()
+        public IEnumerable<Product> GetAllProducts()
         {
-            throw new NotImplementedException();
+            IEnumerable<Product> AllProducts = _context.Products.ToList();
+            return AllProducts;
         }
 
-        public Task<IActionResult> GetByID(int id)
+        public Product GetProductByID(int? id)
         {
-            throw new NotImplementedException();
+            Product SingleProduct = _context.Products.Single<Product>(p => p.ID == id);
+            return SingleProduct;
         }
 
-        public Task<IActionResult> Update(int id, Product product)
+        public void UpdateProduct(int id, Product product)
         {
-            throw new NotImplementedException();
+            _context.Products.Update(product);
+            _context.SaveChanges();
         }
     }
 }
