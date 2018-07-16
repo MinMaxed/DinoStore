@@ -74,6 +74,11 @@ namespace ECommerse.Controllers
                     claims.Add(birthdayClaim);
                     claims.Add(emailClaim);
 
+                    if (user.FirstName == "Amanda" && user.LastName == "Iverson")
+                    {
+                        claims.Add(new Claim("IsAmanda", "true"));
+                    }
+
                     await _userManager.AddClaimsAsync(user, claims);
 
                     if (user.Email.Substring(user.Email.IndexOf('@')) == "@dinostore.com")

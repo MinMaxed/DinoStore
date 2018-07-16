@@ -14,9 +14,3 @@
         <h3>The #1 place to buy REAL dinosaurs!</h3>
     </div>
 </main>
-
-@if (SignInManager.IsSignedIn(User))
-{
-    <h3>Hello @User.Identity.Name</h3>
-    <h4>Your name is @User.Claims.First(c => c.Type == "FullName").Value</h4>
-}
