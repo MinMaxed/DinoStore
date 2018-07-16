@@ -1,0 +1,35 @@
+﻿@model IEnumerable<ECommerse.Models.Product>
+@{
+    ViewBag.Title = "All Products";
+}
+
+<h3 style="text-align: center">All Products</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Sku</th>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Description</th>
+            <th><a asp-action="Create">Create New</a></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in @Model)
+        {
+            <tr>
+                <td scope="row">@product.ID</td>
+                <td>@product.Sku</td>
+                <td><a href="@product.Image">@product.Name</a></td>
+                <td>$@product.Price</td>
+                <td>@product.Description</td>
+                <td>
+                    <a asp-action="Update" asp-route-id="@product.ID">Update</a>
+                    <a asp-action="Delete" asp-route-id="@product.ID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
