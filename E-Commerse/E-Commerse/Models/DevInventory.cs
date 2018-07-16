@@ -16,15 +16,17 @@ namespace ECommerse.Models
             _context = context;
         }
 
-        public async void CreateProduct(Product product)
+        public void CreateProduct(Product product)
         {
-            await _context.Products.AddAsync(product);
+            _context.Products.Add(product);
+            _context.SaveChanges();
         }
 
         public void DeleteProduct(int id)
         {
             Product deleteProduct = _context.Products.Single<Product>(p => p.ID == id);
             _context.Products.Remove(deleteProduct);
+            _context.SaveChanges();
         }
 
         public IEnumerable<Product> GetAllProducts()

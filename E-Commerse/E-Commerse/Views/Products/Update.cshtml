@@ -1,0 +1,43 @@
+﻿@model ECommerse.Models.Product
+@{
+    ViewBag.Title = $"Updating {@Model.Name}";
+}
+
+<H3 style="text-align:center">Edit</H3>
+
+<form asp-action="Update">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="ID" />
+    <div class="form-group">
+        <label class="control-label" asp-for="Name"></label>
+        <input class="form-control" asp-for="Name" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="control-label" asp-for="Sku"></label>
+        <input class="form-control" asp-for="Sku" />
+        <span asp-validation-for="Sku" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="control-label" asp-for="Price"></label>
+        <input class="form-control" asp-for="Price" />
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="control-label" asp-for="Image"></label>
+        <input class="form-control" asp-for="Image" />
+        <span asp-validation-for="Image" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="control-label" asp-for="Description"></label>
+        <textarea class="form-control" asp-for="Description"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Save" class="btn btn-default" />
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back</a>
+</div>
