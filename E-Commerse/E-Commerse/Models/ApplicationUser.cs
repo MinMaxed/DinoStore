@@ -11,6 +11,7 @@ namespace ECommerse.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime Birthday { get; set; }
+        public List<Product> Basket { get; set; }
     }
 
     public static class ApplicationRoles
