@@ -22,8 +22,8 @@ namespace ECommerse
         public Startup(IConfiguration configuration)
         {
 
-            var builder = new ConfigurationBuilder().AddEnvironmentVariables();
-            builder.AddUserSecrets<Startup>();
+            //var builder = new ConfigurationBuilder().AddEnvironmentVariables();
+            //builder.AddUserSecrets<Startup>();
 
             //for local
             Configuration = configuration;
@@ -48,10 +48,10 @@ namespace ECommerse
 
             //local
             services.AddDbContext<InventoryDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("ProductsConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("LocalProducts")));
 
             services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("UsersConnection")));
+            options.UseSqlServer(Configuration.GetConnectionString("LocalUsers")));
 
             //deployed
             //services.AddDbContext<InventoryDbContext>(options =>
