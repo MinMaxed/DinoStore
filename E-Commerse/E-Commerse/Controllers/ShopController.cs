@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ECommerse.Data;
 using ECommerse.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerse.Controllers
@@ -12,6 +13,9 @@ namespace ECommerse.Controllers
     {
 
         private IInventory _context;
+        private UserManager<ApplicationUser> _userManger;
+
+        //var user = await _userManager.FindEmailAsync(User.Identity.Name);
 
         public ShopController(IInventory context)
         {
@@ -34,5 +38,7 @@ namespace ECommerse.Controllers
 
             return View(_context.GetProductByID(id));
         }
+
+
     }
 }

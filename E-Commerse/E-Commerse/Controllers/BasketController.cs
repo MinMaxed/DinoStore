@@ -1,4 +1,5 @@
 ﻿using ECommerse.Models;
+using ECommerse.Models.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,19 +13,21 @@ namespace ECommerse.Controllers
     [Authorize]
     public class BasketController : Controller
     {
-        private IInventory _context;
+        private IBasket _context;
         private UserManager<ApplicationUser> _userManager;
 
-        public BasketController(IInventory context, UserManager<ApplicationUser> userManager)
+        public BasketController(IBasket context)
         {
             _context = context;
-            _userManager = userManager;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
-            ApplicationUser user = _userManager.GetUserAsync(User).Result;
-            return View(user.Basket);
+            _userManager.GetUserId(User);
+
+            return View();
         }
+
     }
 }
