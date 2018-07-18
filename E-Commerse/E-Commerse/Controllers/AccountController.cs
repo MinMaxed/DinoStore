@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using ECommerse.Models;
+using ECommerse.Models.Interfaces;
 using ECommerse.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -16,11 +17,14 @@ namespace ECommerse.Controllers
     {
         private UserManager<ApplicationUser> _userManager;
         private SignInManager<ApplicationUser> _signInManager;
+        private IBasket _basketContext;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IBasket basketContext)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _basketContext = basketContext;
         }
 
         [AllowAnonymous]
@@ -89,6 +93,7 @@ namespace ECommerse.Controllers
                     await _userManager.AddToRoleAsync(user, ApplicationRoles.Member);
 
                     await _signInManager.SignInAsync(user, false);
+                     _basketContext.createBasket(user.Email);
 
                     return RedirectToAction("Index", "Home");
                 }

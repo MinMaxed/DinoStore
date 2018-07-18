@@ -28,21 +28,21 @@ namespace ECommerse.Models
         }
 
 
-        public Basket createBasket(string userID)
+        public Basket createBasket(string userEmail)
         {
             Basket basket = new Basket
             {
-                UserID = userID,
+                UserEmail = userEmail,
             };
             return basket;
         }
 
 
-        public void AddToBasket(Product product, string userID)
+        public void AddToBasket(Product product, string userEmail)
         {
             BasketItem bi = createBasketItem(product);
 
-            Basket basket = _context.Baskets.Single<Basket>(b => b.UserID == userID);
+            Basket basket = _context.Baskets.Single<Basket>(b => b.UserEmail == userEmail);
             if (!basket.BasketItems.Contains(bi))
             {
                 basket.BasketItems.Add(bi);
@@ -56,19 +56,22 @@ namespace ECommerse.Models
             throw new NotImplementedException();
         }
 
-        public IEnumerable<BasketItem> GetAllBasketItems(string userID)
+        public List<BasketItem> GetAllBasketItems(string userEmail)
         {
-            Basket basket = _context.Baskets.Single<Basket>(b => b.UserID == userID);
+            Basket basket = _context.Baskets.Single<Basket>(b => b.UserEmail == userEmail);
+
+            List<BasketItem> basketContents = new List<BasketItem>();
 
             foreach (var item in basket.BasketItems)
             {
-
+                basketContents.Add(item);
             }
+            return basketContents;
         }
 
-        public void RemoveFromBasket(int itemID, string userID)
+        public void RemoveFromBasket(int itemID, string userEmail)
         {
-            Basket basket = _context.Baskets.Single<Basket>(b => b.UserID == userID);
+            Basket basket = _context.Baskets.Single<Basket>(b => b.UserEmail == userEmail);
 
             foreach (var item in basket.BasketItems)
             {
