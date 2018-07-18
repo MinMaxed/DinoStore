@@ -8,7 +8,7 @@ namespace ECommerse.Models
     public class Basket
     {
         public int ID { get; set; }
-        public string UserID { get; set; }
+        public string UserEmail { get; set; }
         public List<BasketItem> BasketItems { get; set; }
     }
 }
