@@ -17,30 +17,33 @@ namespace ECommerse.Models
             _context = context;
         }
 
-        public BasketItem createBasketItem(Product product)
+        public BasketItem CreateBasketItem(Product product)
         {
             BasketItem bi = new BasketItem
             {
                 ProductID = product.ID,
                 Quantity = 1
             };
+
+            _context.SaveChanges();
             return bi;
         }
 
 
-        public Basket createBasket(string userEmail)
+        public Basket CreateBasket(string userEmail)
         {
             Basket basket = new Basket
             {
                 UserEmail = userEmail,
             };
+            _context.SaveChanges();
             return basket;
         }
 
 
         public void AddToBasket(Product product, string userEmail)
         {
-            BasketItem bi = createBasketItem(product);
+            BasketItem bi = CreateBasketItem(product);
 
             Basket basket = _context.Baskets.Single<Basket>(b => b.UserEmail == userEmail);
             if (!basket.BasketItems.Contains(bi))

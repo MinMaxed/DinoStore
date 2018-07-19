@@ -81,7 +81,7 @@ namespace ECommerse.Data
                 {
                     ID = 7,
                     Sku = "00007",
-                    Name = "Archeopteryx",
+                    Name = "Archaeopteryx",
                     Price = 199.99m,
                     Description = "The missing link",
                     Image = @"\Images\Archaeopteryx.jpg"

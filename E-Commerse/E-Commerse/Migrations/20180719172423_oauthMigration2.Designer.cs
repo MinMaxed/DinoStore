@@ -4,14 +4,16 @@ using ECommerse.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ECommerse.Migrations
 {
     [DbContext(typeof(InventoryDbContext))]
-    partial class InventoryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180719172423_oauthMigration2")]
+    partial class oauthMigration2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,7 +80,7 @@ namespace ECommerse.Migrations
                         new { ID = 4, Description = "Grandpa of the giraffe", Image = "\\Images\\Brachiosaurus.jpg", Name = "Brachiosaurus", Price = 199.99m, Sku = "00004" },
                         new { ID = 5, Description = "The walking tank of the Cretaceous", Image = "\\Images\\Ankylosaurus.jpg", Name = "Ankylosaurus", Price = 199.99m, Sku = "00005" },
                         new { ID = 6, Description = "Pack hunting terror of the Creatceous", Image = "\\Images\\Velociraptor.jpg", Name = "Velociraptor", Price = 199.99m, Sku = "00006" },
-                        new { ID = 7, Description = "The missing link", Image = "\\Images\\Archaeopteryx.jpg", Name = "Archaeopteryx", Price = 199.99m, Sku = "00007" },
+                        new { ID = 7, Description = "The missing link", Image = "\\Images\\Archaeopteryx.jpg", Name = "Archeopteryx", Price = 199.99m, Sku = "00007" },
                         new { ID = 8, Description = "Jurassic terror", Image = "\\Images\\Allosaurus.jpg", Name = "Allosaurus", Price = 199.99m, Sku = "00008" },
                         new { ID = 9, Description = "The two legged herbivore with a powerful headbutt", Image = "\\Images\\Pachycephalosaurus.jpg", Name = "Pachycephalosaurus", Price = 199.99m, Sku = "00009" },
                         new { ID = 10, Description = "A plated beheamoth with a powerful defensive tail", Image = "\\Images\\Stegosaurus.jpg", Name = "Stegosaurus", Price = 199.99m, Sku = "00010" }
