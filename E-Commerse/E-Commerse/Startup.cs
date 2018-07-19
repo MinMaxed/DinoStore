@@ -39,11 +39,12 @@ namespace ECommerse
         {
             services.AddMvc();
             services.AddScoped<IInventory, DevInventory>();
+            services.AddScoped<IBasket, DevBasket>();
 
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
-                options.AddPolicy("AmandaOnly", policy => policy.RequireClaim("IsAmanda"));
+                options.AddPolicy("AmandaOnly", policy => policy.Requirements.Add(new NameRequirement("Amanda Iverson")));
                 options.AddPolicy("MicrosoftOnly", policy => policy.Requirements.Add(new EmailRequirement("@microsoft.com")));
             });
 

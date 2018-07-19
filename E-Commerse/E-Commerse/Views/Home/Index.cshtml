@@ -13,4 +13,11 @@
         <h1>Welcome to DinoStore!</h1>
         <h3>The #1 place to buy REAL dinosaurs!</h3>
     </div>
+
+    @if (SignInManager.IsSignedIn(User))
+    {
+        string email = User.FindFirst(c => c.Type == ClaimTypes.Email).Value;
+        @await Component.InvokeAsync("Basket", email);
+
+    }
 </main>

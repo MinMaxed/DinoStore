@@ -7,7 +7,7 @@ namespace ECommerse.Models.Interfaces
 {
     public interface IBasket
     {
-        Basket CreateBasket(string userEmail);
+        void CreateBasket(string userEmail);
         BasketItem CreateBasketItem(Product product);
 
 
@@ -17,7 +17,5 @@ namespace ECommerse.Models.Interfaces
         void RemoveFromBasket(int itemID, string userEmail);
         void EmptyBasket();
         List<BasketItem> GetAllBasketItems(string userEmail);
-
-
     }
 }

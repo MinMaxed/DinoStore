@@ -65,7 +65,7 @@ namespace ECommerse.Controllers
                 /// for things like birthday discounts 
                 if (result.Succeeded)
                 {
-                    Claim nameClaim = new Claim("FirstName", user.FirstName);
+                    Claim nameClaim = new Claim("FullName", $"{user.FirstName} {user.LastName}");
                     Claim birthdayClaim = new Claim(ClaimTypes.DateOfBirth,
                         new DateTime(user.Birthday.Year,
                         user.Birthday.Month,
@@ -77,11 +77,6 @@ namespace ECommerse.Controllers
                     claims.Add(nameClaim);
                     claims.Add(birthdayClaim);
                     claims.Add(emailClaim);
-
-                    if (user.FirstName == "Amanda" && user.LastName == "Iverson")
-                    {
-                        claims.Add(new Claim("IsAmanda", "true"));
-                    }
 
                     await _userManager.AddClaimsAsync(user, claims);
 
