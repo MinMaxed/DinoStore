@@ -24,6 +24,8 @@ namespace ECommerse.Models
                 ProductID = product.ID,
                 Quantity = 1
             };
+
+            _context.SaveChanges();
             return bi;
         }
 
@@ -34,6 +36,7 @@ namespace ECommerse.Models
             {
                 UserEmail = userEmail,
             };
+            _context.SaveChanges();
             return basket;
         }
 
