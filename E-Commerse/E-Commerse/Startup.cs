@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ECommerse.Data;
 using ECommerse.Models;
 using ECommerse.Models.Handlers;
+using ECommerse.Models.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -70,6 +71,9 @@ namespace ECommerse
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.AddScoped<IInventory, DevInventory>();
+            services.AddTransient<IBasket, DevBasket>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

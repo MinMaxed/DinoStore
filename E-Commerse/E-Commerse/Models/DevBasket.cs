@@ -17,7 +17,7 @@ namespace ECommerse.Models
             _context = context;
         }
 
-        public BasketItem createBasketItem(Product product)
+        public BasketItem CreateBasketItem(Product product)
         {
             BasketItem bi = new BasketItem
             {
@@ -28,7 +28,7 @@ namespace ECommerse.Models
         }
 
 
-        public Basket createBasket(string userEmail)
+        public Basket CreateBasket(string userEmail)
         {
             Basket basket = new Basket
             {
@@ -40,7 +40,7 @@ namespace ECommerse.Models
 
         public void AddToBasket(Product product, string userEmail)
         {
-            BasketItem bi = createBasketItem(product);
+            BasketItem bi = CreateBasketItem(product);
 
             Basket basket = _context.Baskets.Single<Basket>(b => b.UserEmail == userEmail);
             if (!basket.BasketItems.Contains(bi))
