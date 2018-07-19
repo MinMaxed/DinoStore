@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ECommerse.Data;
 using ECommerse.Models;
 using ECommerse.Models.Handlers;
+using ECommerse.Models.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -38,11 +39,12 @@ namespace ECommerse
         {
             services.AddMvc();
             services.AddScoped<IInventory, DevInventory>();
+            services.AddScoped<IBasket, DevBasket>();
 
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
-                options.AddPolicy("AmandaOnly", policy => policy.RequireClaim("IsAmanda"));
+                options.AddPolicy("AmandaOnly", policy => policy.Requirements.Add(new NameRequirement("Amanda Iverson")));
                 options.AddPolicy("MicrosoftOnly", policy => policy.Requirements.Add(new EmailRequirement("@microsoft.com")));
             });
 
