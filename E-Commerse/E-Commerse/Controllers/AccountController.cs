@@ -88,7 +88,7 @@ namespace ECommerse.Controllers
                     await _userManager.AddToRoleAsync(user, ApplicationRoles.Member);
 
                     await _signInManager.SignInAsync(user, false);
-                     _basketContext.CreateBasket(user.Email);
+                     _basketContext.CreateBasket(user.Email);                   
 
                     return RedirectToAction("Index", "Home");
                 }
