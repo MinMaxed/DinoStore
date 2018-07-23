@@ -1,8 +1,9 @@
-﻿@model List<BasketItem>
+﻿
 
 @{
     ViewData["Title"] = "Basket Index";
 }
 
-<h2>Basket Index</h2>
+<h2>Basket Page</h2>
 
+@await Component.InvokeAsync("BasketVC", User.Identity.Name)
