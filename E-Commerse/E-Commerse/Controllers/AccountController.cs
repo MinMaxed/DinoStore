@@ -135,6 +135,7 @@ namespace ECommerse.Controllers
         }
 
         //External login
+        [AllowAnonymous]
         public IActionResult ExternalLogin(string provider)
         {
             var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "Account");
@@ -174,6 +175,7 @@ namespace ECommerse.Controllers
             return View("ExternalLogin", new ExternalLoginViewModel { Email = email });
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> ExternalLoginConfirmation(ExternalLoginViewModel elvm)
         {
             if(ModelState.IsValid)
