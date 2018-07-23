@@ -41,6 +41,7 @@ namespace ECommerse
             services.AddScoped<IInventory, DevInventory>();
             services.AddScoped<IBasket, DevBasket>();
 
+
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
@@ -48,19 +49,25 @@ namespace ECommerse
                 options.AddPolicy("MicrosoftOnly", policy => policy.Requirements.Add(new EmailRequirement("@microsoft.com")));
             });
 
-            //local Ben
-            services.AddDbContext<InventoryDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("LocalProducts")));
+            //services.AddAuthentication().AddGoogle(google =>
+            //{
+            //    google.ClientId = Configuration["Authentication:Google:ClientId"];
+            //    google.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+            //});
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("LocalUsers")));
+            //local Ben
+            //services.AddDbContext<InventoryDbContext>(options =>
+            //    options.UseSqlServer(Configuration.GetConnectionString("LocalProducts")));
+
+            //services.AddDbContext<ApplicationDbContext>(options =>
+            //    options.UseSqlServer(Configuration.GetConnectionString("LocalUsers")));
 
             //local Max
-            //  services.AddDbContext<InventoryDbContext>(options =>
-            //options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<InventoryDbContext>(options =>
+          options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            //  services.AddDbContext<ApplicationDbContext>(options =>
-            //  options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             //deployed
             //services.AddDbContext<InventoryDbContext>(options =>
@@ -88,6 +95,7 @@ namespace ECommerse
             app.UseAuthentication();
             app.UseMvcWithDefaultRoute();
             app.UseStaticFiles();
+
 
             app.Run(async (context) =>
             {

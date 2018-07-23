@@ -64,7 +64,7 @@ namespace ECommerse.Data
                      Name = "Ankylosaurus",
                      Price = 199.99m,
                      Description = "The walking tank of the Cretaceous",
-                     Image = @"\Images\Ankylosaurus.jpg"
+                     Image = @"\Images\Anklyosaurus.jpg"
                  },
 
                 new Product()

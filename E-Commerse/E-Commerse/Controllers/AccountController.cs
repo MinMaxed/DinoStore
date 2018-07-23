@@ -88,7 +88,7 @@ namespace ECommerse.Controllers
                     await _userManager.AddToRoleAsync(user, ApplicationRoles.Member);
 
                     await _signInManager.SignInAsync(user, false);
-                     _basketContext.CreateBasket(user.Email);
+                     _basketContext.CreateBasket(user.Email);                   
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -134,46 +134,89 @@ namespace ECommerse.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        //public IActionResult ExternalLogin(string provider)
-        //{
-        //    var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "Account");
-        //    var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
-        //    return Challenge(properties, provider);
-        //}
+        //External login
+        public IActionResult ExternalLogin(string provider)
+        {
+            var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "Account");
+            var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+            return Challenge(properties, provider);
+        }
 
-        //[HttpGet]
-        //[AllowAnonymous]
-        //public async Task<IActionResult> ExternalLoginCallback(string remoteError = null)
-        //{
-        //    if (remoteError != null)
-        //    {
-        //        TempData["ErrorMessage"] = "Error from provider";
-        //        return RedirectToAction(nameof(Login));
-        //    }
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> ExternalLoginCallback(string remoteError = null)
+        {
+            if (remoteError != null)
+            {
+                TempData["ErrorMessage"] = "Error from provider";
+                return RedirectToAction(nameof(Login));
+            }
 
-        //    //check if the web supports external async
-        //    var info = await _signInManager.GetExternalLoginInfoAsync();
+            //check if the web supports external async
+            var info = await _signInManager.GetExternalLoginInfoAsync();
 
-        //    if (info == null)
-        //    {
-        //        return RedirectToAction(nameof(Login));
-        //    }
+            if (info == null)
+            {
+                return RedirectToAction(nameof(Login));
+            }
 
-        //    //if the above isnt true, use external log in
-        //    var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey,
-        //        isPersistent: false, bypassTwoFactor: true);
+            //if the above isnt true, use external log in
+            var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey,
+                isPersistent: false, bypassTwoFactor: true);
 
-        //    if(result.Succeeded)
-        //    {
-        //        return RedirectToAction("Index", "Home");
-        //    }
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Index", "Home");
+            }
 
-        //    var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+            var email = info.Principal.FindFirstValue(ClaimTypes.Email);
 
-        //    return View("ExternalLogin", new ExternalLoginViewModel { Email = email });
-        //}
+            return View("ExternalLogin", new ExternalLoginViewModel { Email = email });
+        }
+
+        public async Task<IActionResult> ExternalLoginConfirmation(ExternalLoginViewModel elvm)
+        {
+            if(ModelState.IsValid)
+            {
+                var info = await _signInManager.GetExternalLoginInfoAsync();
+                if(info == null)
+                {
+                    //change for final
+                    TempData["Error"] = "Error from ExternalLoginConfirmation";
+                }
+
+                //add password creation
+                var user = new ApplicationUser { UserName = elvm.Email, Email = elvm.Email };
+
+                var result = await _userManager.CreateAsync(user);
+                List<Claim> claims = new List<Claim>();
 
 
+                if (result.Succeeded)
+                {
+                    Claim nameClaim = new Claim("FullName", $"{user.FirstName} {user.LastName}");
+                    Claim birthdayClaim = new Claim(ClaimTypes.DateOfBirth,
+                        new DateTime(user.Birthday.Year,
+                        user.Birthday.Month,
+                        user.Birthday.Day)
+                        .ToString("u"),
+                        ClaimValueTypes.DateTime);
+                    Claim emailClaim = new Claim(ClaimTypes.Email, user.Email, ClaimValueTypes.Email);
+
+                    claims.Add(nameClaim);
+                    claims.Add(birthdayClaim);
+                    claims.Add(emailClaim);
+
+                    await _userManager.AddClaimsAsync(user, claims);
+
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+
+            return View(elvm);
+        }
 
     }
 }

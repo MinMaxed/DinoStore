@@ -1,6 +1,6 @@
 ﻿@model ECommerse.Models.ViewModels.LoginViewModel
 
-@{ 
+@{
     ViewData["Title"] = "Login";
 }
 
@@ -8,10 +8,10 @@
 
 <form method="post">
     <div asp-validation-summary="All"></div>
-    
+
     <div>
         <label asp-for="Email"></label>
-        <input asp-for="Email"/>
+        <input asp-for="Email" />
     </div>
 
     <div>
@@ -19,4 +19,23 @@
         <input asp-for="Password" />
     </div>
     <button type="submit">Login</button>
-    </form>
+</form>
+
+@{
+    var loginProviders = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+    if (loginProviders.Count > 0)
+    {
+        <div>
+            <form asp-action="ExternalLogin" method="post">
+
+                @foreach (var provider in loginProviders)
+                {
+                    <button type="submit" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.Name</button>
+
+                }
+            </form>
+        </div>
+
+    }
+}
