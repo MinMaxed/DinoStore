@@ -1,4 +1,5 @@
 ﻿using ECommerse.Models;
+using ECommerse.Models.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -58,5 +59,7 @@ namespace ECommerse.Controllers
             _context.DeleteProduct(id);
             return RedirectToAction("Index");
         }
+
+
     }
 }

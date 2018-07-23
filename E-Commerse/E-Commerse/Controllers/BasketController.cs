@@ -16,9 +16,10 @@ namespace ECommerse.Controllers
         private IBasket _context;
         private UserManager<ApplicationUser> _userManager;
 
-        public BasketController(IBasket context)
+        public BasketController(IBasket context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         [HttpGet]

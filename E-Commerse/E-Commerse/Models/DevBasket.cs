@@ -38,7 +38,7 @@ namespace ECommerse.Models
             _context.SaveChanges();
         }
 
-
+        //see about moving to BasketController
         public void AddToBasket(Product product, string userEmail)
         {
             BasketItem bi = CreateBasketItem(product);
@@ -50,7 +50,6 @@ namespace ECommerse.Models
                 basket.BasketItems.Add(bi);
                 _context.SaveChanges();
             }
-
         }
 
         public void EmptyBasket()
