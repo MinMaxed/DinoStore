@@ -49,11 +49,11 @@ namespace ECommerse
                 options.AddPolicy("MicrosoftOnly", policy => policy.Requirements.Add(new EmailRequirement("@microsoft.com")));
             });
 
-            services.AddAuthentication().AddGoogle(google =>
-            {
-                google.ClientId = Configuration["Authentication:Google:ClientId"];
-                google.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
-            });
+            //services.AddAuthentication().AddGoogle(google =>
+            //{
+            //    google.ClientId = Configuration["Authentication:Google:ClientId"];
+            //    google.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+            //});
 
             //local Ben
             //services.AddDbContext<InventoryDbContext>(options =>
