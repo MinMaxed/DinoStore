@@ -57,7 +57,7 @@
             <div id="basket">
                 @{
                     string email = User.FindFirst(c => c.Type == ClaimTypes.Email).Value;
-                    @await Component.InvokeAsync("Basket", email);
+                    @await Component.InvokeAsync("BasketVC", email);
                 }
             </div>
         }
