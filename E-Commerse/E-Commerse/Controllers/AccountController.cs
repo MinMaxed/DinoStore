@@ -190,7 +190,7 @@ namespace ECommerse.Controllers
                 //add password creation
                 var user = new ApplicationUser { UserName = elvm.Email, Email = elvm.Email };
 
-                var result = await _userManager.CreateAsync(user);
+                var result = await _userManager.CreateAsync(user, elvm.Password);
                 List<Claim> claims = new List<Claim>();
 
 
@@ -212,6 +212,8 @@ namespace ECommerse.Controllers
                     await _userManager.AddClaimsAsync(user, claims);
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
+                    _basketContext.CreateBasket(user.Email);
+
 
                     return RedirectToAction("Index", "Home");
                 }

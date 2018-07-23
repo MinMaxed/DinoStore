@@ -12,5 +12,19 @@ namespace ECommerse.Models.ViewModels
         [EmailAddress]
         [Required]
         public string Email { get; set; }
+
+
+
+
+        [Required]
+        [Display(Name = "Password")]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
+
+        [Required]
+        [Compare("Password", ErrorMessage = "Something didn't match")]
+        [Display(Name = "Confirm Password")]
+        [DataType(DataType.Password)]
+        public string ConfirmPassword { get; set; }
     }
 }
