@@ -14,20 +14,23 @@ namespace ECommerse.Controllers
     public class BasketController : Controller
     {
         private IBasket _context;
-        private UserManager<ApplicationUser> _userManager;
+        private IInventory _inventory;
 
-        public BasketController(IBasket context)
+        public BasketController(IBasket context, IInventory inventory)
         {
             _context = context;
+            _inventory = inventory;
         }
 
-        [HttpGet]
         public IActionResult Index()
         {
-            _userManager.GetUserId(User);
-
-            return View();
+            return View(_context.GetAllBasketItems(User.Identity.Name));
         }
 
+        public IActionResult AddToBasket(int ID)
+        {
+            _context.AddToBasket(ID, User.Identity.Name);
+            return RedirectToAction("Index", "Shop");
+        }
     }
 }
