@@ -1,53 +1,75 @@
 ﻿@model ECommerse.Models.ViewModels.RegisterViewModel
 
-@{ 
+@{
     ViewData["Title"] = "Register";
 }
 
-<h2>Register</h2>
+<main>
+    <h2 style="text-align: center">Registration</h2>
+    <hr />
 
-<h3> Create an Account</h3>
+    @{
+        var loginProviders = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
-<form method="post">
-    <div asp-validation-summary="All"></div>
+        if (loginProviders.Count > 0)
+        {
+            <div id="oauth">
+                <h3>Register with an external login:</h3>
+                <form asp-action="ExternalLogin" method="post">
 
-    <div>
-        <label asp-for="Email"></label>
-        <input asp-for="Email" />
-        <span asp-validation-for="Email"></span>
-    </div>
+                    @foreach (var provider in loginProviders)
+                    {
+                        <button type="submit" name="provider" value="@provider.Name" class="btn" id="@provider.DisplayName">
+                            <i class="fab fa-@provider.DisplayName.ToLower()"></i> <p class="btntext">Register with @provider.DisplayName</p>
+                        </button>
 
-    <div>
-        <label asp-for="FirstName"></label>
-        <input asp-for="FirstName" />
-        <span asp-validation-for="FirstName"></span>
-    </div>
+                    }
+                </form>
+            </div>
 
-    <div>
-        <label asp-for="LastName"></label>
-        <input asp-for="LastName" />
-        <span asp-validation-for="LastName"></span>
-    </div>
+        }
+    }
+    <hr />
 
-    <div>
-        <label asp-for="Birthday"></label>
-        <input asp-for="Birthday" />
-        <span asp-validation-for="Birthday"></span>
-    </div>
+            <div id="userform">
+                <h3>Or, create a new account:</h3>
+                <form method="post">
 
-    <div>
-        <label asp-for="Password"></label>
-        <input asp-for="Password" />
-        <span asp-validation-for="Password"></span>
-    </div>
+                    <div asp-validation-summary="All"></div>
 
-    <div>
-        <label asp-for="ConfirmPassword"></label>
-        <input asp-for="ConfirmPassword" />
-        <span asp-validation-for="ConfirmPassword"></span>
-    </div>
+                    <div>
+                        <label asp-for="Email"></label>
+                        <input asp-for="Email" />
+                    </div>
 
-    <button type ="submit">Register</button>
+                    <div>
+                        <label asp-for="FirstName"></label>
+                        <input asp-for="FirstName" />
+                    </div>
 
+                    <div>
+                        <label asp-for="LastName"></label>
+                        <input asp-for="LastName" />
+                    </div>
 
-</form>
+                    <div>
+                        <label asp-for="Birthday"></label>
+                        <input asp-for="Birthday" />
+                    </div>
+
+                    <div>
+                        <label asp-for="Password"></label>
+                        <input asp-for="Password" />
+                    </div>
+
+                    <div>
+                        <label asp-for="ConfirmPassword"></label>
+                        <input asp-for="ConfirmPassword" />
+                    </div>
+
+                    <button type="submit" class="btn">Register</button>
+                </form>
+
+            </div>
+
+</main>

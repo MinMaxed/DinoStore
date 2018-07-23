@@ -4,34 +4,23 @@
     ViewData["Title"] = "Login";
 }
 
-<h2>Login</h2>
-
-<form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
-    <div asp-validation-summary="All"></div>
-
-    <div>
-        <label asp-for="Email"></label>
-        <input asp-for="Email" />
-    </div>
-
-    <div>
-        <label asp-for="Password"></label>
-        <input asp-for="Password" />
-    </div>
-    <button type="submit">Login</button>
-</form>
+<h2 style="text-align:center">Login</h2>
+<hr />
 
 @{
     var loginProviders = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
     if (loginProviders.Count > 0)
     {
-        <div>
+        <div id="oauth">
+            <h3>Login with an external account:</h3>
             <form asp-action="ExternalLogin" method="post">
 
                 @foreach (var provider in loginProviders)
                 {
-                    <button type="submit" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.Name</button>
+                    <button type="submit" name="provider" value="@provider.Name" class="btn" id="@provider.DisplayName">
+                        <i class="fab fa-@provider.DisplayName.ToLower()"></i> <p class="btntext">Login with @provider.DisplayName</p>
+                    </button>
 
                 }
             </form>
@@ -39,3 +28,23 @@
 
     }
 }
+<hr />
+        <div id="userform">
+            <h3>Or, login with your DinoStore account:</h3>
+            <form method="post">
+                <div asp-validation-summary="All"></div>
+
+                <div>
+                    <label asp-for="Email"></label>
+                    <input asp-for="Email" />
+                </div>
+
+                <div>
+                    <label asp-for="Password"></label>
+                    <input asp-for="Password" />
+                </div>
+                <button type="submit" class="btn">Login</button>
+            </form>
+        </div>
+
+

@@ -4,9 +4,6 @@
 
 main {
     position: relative;
-    display: flex;
-    width: 100%;
-    align-items: stretch;
 }
 
 header{
@@ -16,6 +13,9 @@ header{
     background-color: forestgreen;
 }
 
+.navbar-brand {
+    font-family: 'Sigmar One', cursive;
+}
 
 #basket {
     padding: 10px;
@@ -66,5 +66,61 @@ header{
 
 #content {
     z-index: 0;
+    width: 80vw;
+    max-width: 960px;
     margin: 0 auto;
+    padding-top: 1em;
+}
+
+.fab {
+    margin: .25em;
+    font-size: 2em;
+
+}
+
+#oauth {
+    text-align:center;
+    width: 100%;
+    margin-bottom: .75em;
+}
+
+#oauth .btn {
+    padding: 0;
+    margin: .25em;
+    width: 40%;
+}
+
+.btntext{
+    display: inline;
+    vertical-align: top;
+    line-height: 3em;
+    margin-right: .5em;
+}
+
+#userform {
+    text-align: center;
+    background-color: #333333;
+    border-radius: 2em;
+    color: #eeeeee;
+    padding: 1em;
+    box-shadow: 5px 5px 10px #aaaaaa;
+}
+
+#userform form {
+    position: relative;
+    width: 60%;
+    margin: 0 auto;
+    text-align: left;
+}
+
+#userform form input {
+    position: absolute;
+    right: 0;
+    width: 50%;
+}
+
+#userform form button {
+    display: block;
+    margin: 0 auto;
+    margin-top: 1em;
 }
