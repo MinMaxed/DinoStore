@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace ECommerse.Components
 {
-    public class Basket : ViewComponent
+    public class BasketVC : ViewComponent
     {
         private IBasket _context;
         private IInventory _inventory;
 
-        public Basket(IBasket context, IInventory inventory)
+        public BasketVC(IBasket context, IInventory inventory)
         {
             _context = context;
             _inventory = inventory;
