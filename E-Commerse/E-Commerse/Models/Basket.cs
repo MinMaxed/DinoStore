@@ -9,6 +9,5 @@ namespace ECommerse.Models
     {
         public int ID { get; set; }
         public string UserEmail { get; set; }
-        public List<BasketItem> BasketItems { get; set; }
     }
 }

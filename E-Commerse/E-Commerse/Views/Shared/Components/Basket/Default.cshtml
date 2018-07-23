@@ -1,27 +1,28 @@
-﻿@model List<BasketItem>
+﻿@using ECommerse.Models.ViewModels
+@model BasketViewModel
 
 <h2>Your Basket</h2>
 
-@if(Model.Count == 0)
+@if (Model.BasketItems.Count == 0)
 {
     <h4>Your basket is empty!</h4>
 
 }
 
-@foreach (var item in Model)
+@foreach (var item in Model.BasketItems)
 {
-    var product = item.Product;
-    
+    var product = Model.Products.Find(p => p.ID == item.ProductID);
+
     <div>
-        <div id="basketitem">
-            <img src="@product.Image" alt="@product.Description"/>
+        <div class="basketitem">
+            <img src="@product.Image" alt="@product.Description" />
             <h4>@product.Name</h4>
             <p>@product.Price</p>
         </div>
         <div>
-            <a asp-route="Basket" asp-action="Remove" asp-route-id="@item.ID">
-                <i class="fas fa-times"></i>
-            </a>
+            @*<a asp-route="Basket" asp-action="Remove" asp-route-id="@item.ID">
+                    <i class="fas fa-times"></i>
+                </a>*@
         </div>
     </div>
 

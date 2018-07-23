@@ -8,10 +8,10 @@ namespace ECommerse.Models.Interfaces
     public interface IBasket
     {
         void CreateBasket(string userEmail);
-        BasketItem CreateBasketItem(Product product);
+        BasketItem CreateBasketItem(int productID, int basketID);
 
 
-        void AddToBasket(Product product, string userEmail);
+        void AddToBasket(int productID, string userEmail);
 
         //void UpdateBasketItemQuantity(int ItemID, BasketItem basketItem);
         void RemoveFromBasket(int itemID, string userEmail);

@@ -17,12 +17,13 @@ namespace ECommerse.Models
             _context = context;
         }
 
-        public BasketItem CreateBasketItem(Product product)
+        public BasketItem CreateBasketItem(int productID, int basketID)
         {
             BasketItem bi = new BasketItem
             {
-                Product = product,
-                Quantity = 1
+                ProductID = productID,
+                Quantity = 1,
+                BasketID = basketID
             };
             return bi;
         }
@@ -33,21 +34,20 @@ namespace ECommerse.Models
             _context.Baskets.Add(new Basket
             {
                 UserEmail = userEmail,
-                BasketItems = new List<BasketItem>()
             });
             _context.SaveChanges();
         }
 
 
-        public void AddToBasket(Product product, string userEmail)
+        public void AddToBasket(int productID, string userEmail)
         {
-            BasketItem bi = CreateBasketItem(product);
+            int basketID = _context.Baskets.Single(b => b.UserEmail == userEmail).ID;
+            List<BasketItem> items = GetAllBasketItems(userEmail);
 
-            Basket basket = _context.Baskets.Single(b => b.UserEmail == userEmail);
-            if (basket.BasketItems == null) basket.BasketItems = new List<BasketItem>();
-            if (!basket.BasketItems.Contains(bi))
+            if (items.Find(item => item.ProductID == productID) == null)
             {
-                basket.BasketItems.Add(bi);
+                BasketItem bi = CreateBasketItem(productID, basketID);
+                _context.BasketItems.Add(bi);
                 _context.SaveChanges();
             }
 
@@ -60,31 +60,20 @@ namespace ECommerse.Models
 
         public List<BasketItem> GetAllBasketItems(string userEmail)
         {
-            Basket basket = _context.Baskets.Single(b => b.UserEmail == userEmail);
+            int basketID = _context.Baskets.Single(b => b.UserEmail == userEmail).ID;
 
-            List<BasketItem> basketContents = new List<BasketItem>();
-            
-            if (basket.BasketItems != null)
-            {
-                foreach (var item in basket.BasketItems)
-                {
-                    basketContents.Add(item);
-                }
-            }
+            List<BasketItem> items = _context.BasketItems.Where(item => item.BasketID == basketID).ToList();
 
-            return basketContents;
+            return items;
         }
 
         public void RemoveFromBasket(int itemID, string userEmail)
         {
-            Basket basket = _context.Baskets.Single(b => b.UserEmail == userEmail);
-
-            if (basket.BasketItems != null)
+            List<BasketItem> items = GetAllBasketItems(userEmail);
+            BasketItem basketItem = items.Find(bi => bi.ID == itemID);
+            if (basketItem != null)
             {
-                foreach (var item in basket.BasketItems)
-                {
-                    if (item.ID == itemID) basket.BasketItems.Remove(item);
-                }
+                _context.BasketItems.Remove(basketItem);
                 _context.SaveChanges();
             }
         }
