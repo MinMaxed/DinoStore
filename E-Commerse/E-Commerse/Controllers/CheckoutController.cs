@@ -28,8 +28,12 @@ namespace ECommerse.Controllers
             return View();
         }
 
+        public IActionResult ViewOrder()
+        {
+            return View(_context.GetAllBasketItems(User.Identity.Name));
+        }
 
-        public IActionResult CompleteOrder()
+        public IActionResult Receipt()
         {
             return View();
         }

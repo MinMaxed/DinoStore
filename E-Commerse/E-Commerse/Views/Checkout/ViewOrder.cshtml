@@ -1,0 +1,11 @@
+﻿
+
+@{
+    ViewData["Title"] = "ViewOrder";
+}
+
+<h2>View Order</h2>
+
+
+@await Component.InvokeAsync("BasketVC", User.Identity.Name)
+
