@@ -11,13 +11,17 @@ namespace ECommerse.Models.ViewModels
         public int UserID { get; set; }
         public Order UserOrder { get; set; }
 
-        public BasketViewModel Order { get; set; }
+        public BasketViewModel TheOrder { get; set; }
 
-        public OrderViewModel(Basket basket, int userID)
+        //public OrderViewModel(Basket basket, int userID)
+        //{
+        //    Basket = basket;
+        //    UserID = userID;
+
+        //}
+
+        public OrderViewModel()
         {
-            Basket = basket;
-            UserID = userID;
-
         }
     }
 }

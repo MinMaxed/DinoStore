@@ -7,3 +7,5 @@
 <h2>Basket Page</h2>
 
 @await Component.InvokeAsync("BasketVC", User.Identity.Name)
+
+<a asp-action="ViewOrder" asp-controller="Checkout">Complete your order</a>
