@@ -9,5 +9,7 @@ namespace ECommerse.Models.Interfaces
     {
         List<Product> OrderList(string userEmail);
 
+        bool CompleteOrder();
+
     }
 }

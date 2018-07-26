@@ -36,20 +36,25 @@ namespace ECommerse.Controllers
             List<BasketItem> basketList = _context.GetAllBasketItems(User.Identity.Name);
             List<Product> productList = new List<Product>();
 
+            decimal total = 0;
             foreach (var item in basketList)
             {
                 Product product = _invContext.GetProductByID(item.ProductID);
                 productList.Add(product);
-                
-            }       
+                total = total + product.Price;
+            }
+
             BasketViewModel bvm = new BasketViewModel(basketList, productList);
+
+            Order userOrder = new Order();
+            userOrder.Total = total;
 
             OrderViewModel ovm = new OrderViewModel();
             ovm.TheOrder = bvm;
+            ovm.UserOrder = userOrder;
 
             return View(ovm);
         }
-
 
 
 
@@ -62,25 +67,43 @@ namespace ECommerse.Controllers
             return View();
         }
 
+
         public IActionResult Receipt()
         {
             List<BasketItem> basketList = _context.GetAllBasketItems(User.Identity.Name);
             List<Product> productList = new List<Product>();
 
+            decimal total = 0;
             foreach (var item in basketList)
             {
                 Product product = _invContext.GetProductByID(item.ProductID);
                 productList.Add(product);
-
+                total = total + product.Price;
             }
             BasketViewModel bvm = new BasketViewModel(basketList, productList);
+            Order userOrder = new Order();
+            userOrder.TransactionCompleted = true;
+            userOrder.Total = total;
 
             OrderViewModel ovm = new OrderViewModel();
             ovm.TheOrder = bvm;
+
+            ovm.UserOrder = userOrder;
 
             return View(ovm);
         }
 
 
+
+        public bool CompletedOrder()
+        {
+            Order order = new Order();
+            List<BasketItem> basketList = _context.GetAllBasketItems(User.Identity.Name);
+
+            order.OrderItems = basketList;
+
+            _invContext.CompleteOrder(order);
+            return order.TransactionCompleted;
+        }
     }
 }

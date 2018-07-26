@@ -46,5 +46,11 @@ namespace ECommerse.Models
             _context.Products.Update(product);
             _context.SaveChanges();
         }
+
+
+        public bool CompleteOrder(Order order)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

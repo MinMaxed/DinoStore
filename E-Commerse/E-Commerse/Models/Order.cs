@@ -12,7 +12,9 @@ namespace ECommerse.Models
 
         public List<BasketItem> OrderItems { get; set; }
         public int UserID { get; set; }
+
         public decimal Total { get; set; }
+        public bool TransactionCompleted = false;
 
         [Required]
         [Display(Name="Shipping Address")]
