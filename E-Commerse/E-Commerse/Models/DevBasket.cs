@@ -58,6 +58,12 @@ namespace ECommerse.Models
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// based on user email as key, find the basket associated to it, then find all BasketItems 
+        /// that have a BasketID that matches the baskets, then return that List. 
+        /// </summary>
+        /// <param name="userEmail">User email/query key</param>
+        /// <returns></returns>
         public List<BasketItem> GetAllBasketItems(string userEmail)
         {
             int basketID = _context.Baskets.Single(b => b.UserEmail == userEmail).ID;

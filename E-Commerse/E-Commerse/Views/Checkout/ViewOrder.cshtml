@@ -1,0 +1,26 @@
+﻿@model ECommerse.Models.ViewModels.OrderViewModel
+
+
+@{
+    ViewData["Title"] = "ViewOrder";
+}
+
+<h2>Review your Order</h2>
+
+
+@*refactor to display only names and prices*@
+@foreach (var item in Model.TheOrder.Products)
+{
+    <h3>@item.Name</h3>
+    <h3>@item.Price</h3>
+}
+
+
+<form>
+    <div>
+        <label asp-for="@Model.UserOrder.ShippingAddress"></label>
+        <input asp-for="@Model.UserOrder.ShippingAddress" />
+    </div>
+</form>
+
+<a asp-action="Checkout" asp-controller="Checkout">Proceed to Check Out</a>

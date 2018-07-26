@@ -1,0 +1,14 @@
+﻿@model ECommerse.Models.ViewModels.OrderViewModel
+
+@{
+    ViewData["Title"] = "Checkout";
+}
+
+<h2>Checkout</h2>
+
+<form>
+    <div>
+        <label asp-for="@Model.UserOrder.ShippingAddress"></label>
+        <input asp-for="@Model.UserOrder.ShippingAddress" />
+    </div>
+</form>
