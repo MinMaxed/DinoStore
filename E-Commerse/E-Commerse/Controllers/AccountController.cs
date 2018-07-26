@@ -8,6 +8,7 @@ using ECommerse.Models.Interfaces;
 using ECommerse.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerse.Controllers
@@ -18,13 +19,15 @@ namespace ECommerse.Controllers
         private UserManager<ApplicationUser> _userManager;
         private SignInManager<ApplicationUser> _signInManager;
         private IBasket _basketContext;
+        private IEmailSender _emailSender;
 
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IBasket basketContext)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IBasket basketContext, IEmailSender emailSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _basketContext = basketContext;
+            _emailSender = emailSender;
         }
 
         [AllowAnonymous]
@@ -88,7 +91,10 @@ namespace ECommerse.Controllers
                     await _userManager.AddToRoleAsync(user, ApplicationRoles.Member);
 
                     await _signInManager.SignInAsync(user, false);
-                     _basketContext.CreateBasket(user.Email);                   
+                     _basketContext.CreateBasket(user.Email);
+
+                    string htmlMessage = EmailGenerator.WelcomeEmail(nameClaim.Value);
+                    await _emailSender.SendEmailAsync(user.Email, "Welcome to DinoStore!", htmlMessage);
 
                     return RedirectToAction("Index", "Home");
                 }
