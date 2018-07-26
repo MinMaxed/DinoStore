@@ -64,18 +64,18 @@ namespace ECommerse
             });
 
             //local Ben
-            //services.AddDbContext<InventoryDbContext>(options =>
-            //    options.UseSqlServer(Configuration.GetConnectionString("LocalProducts")));
-
-            //services.AddDbContext<ApplicationDbContext>(options =>
-            //    options.UseSqlServer(Configuration.GetConnectionString("LocalUsers")));
-
-            //local Max
             services.AddDbContext<InventoryDbContext>(options =>
-          options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("LocalProducts")));
 
             services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("LocalUsers")));
+
+            //local Max
+          //  services.AddDbContext<InventoryDbContext>(options =>
+          //options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+          //  services.AddDbContext<ApplicationDbContext>(options =>
+          //  options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             //deployed
             //services.AddDbContext<InventoryDbContext>(options =>
@@ -87,9 +87,6 @@ namespace ECommerse
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
-
-            services.AddScoped<IInventory, DevInventory>();
-            services.AddTransient<IBasket, DevBasket>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
