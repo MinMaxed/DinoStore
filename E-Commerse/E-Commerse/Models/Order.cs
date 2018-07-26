@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,13 +10,17 @@ namespace ECommerse.Models
     {
         public int ID { get; set; }
 
-        //may need to be changed to Product
         public List<BasketItem> OrderItems { get; set; }
         public int UserID { get; set; }
         public decimal Total { get; set; }
 
+        [Required]
+        [Display(Name="Shipping Address")]
         public string ShippingAddress { get; set; }
-        //public string CardNumber { get; set; }
+
+        [Required]
+        [Display(Name="Card Info")]
+        public string CardNumber { get; set; }
 
     }
 }

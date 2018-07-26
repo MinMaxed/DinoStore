@@ -32,8 +32,7 @@ namespace ECommerse.Controllers
 
         public IActionResult ViewOrder()
         {
-            //insntaite a basket view model
-            // populate it with info
+    
             List<BasketItem> basketList = _context.GetAllBasketItems(User.Identity.Name);
             List<Product> productList = new List<Product>();
 
@@ -42,17 +41,17 @@ namespace ECommerse.Controllers
                 Product product = _invContext.GetProductByID(item.ProductID);
                 productList.Add(product);
                 
-            }
-           
+            }       
             BasketViewModel bvm = new BasketViewModel(basketList, productList);
-            //instantite order view model
-            // set the instatiated bvm to the "theOrder" in the ovm
+
             OrderViewModel ovm = new OrderViewModel();
             ovm.TheOrder = bvm;
 
-            // send ovm to view
             return View(ovm);
         }
+
+
+
 
         /// <summary>
         /// will take to the page where user enters in their info
@@ -65,7 +64,21 @@ namespace ECommerse.Controllers
 
         public IActionResult Receipt()
         {
-            return View();
+            List<BasketItem> basketList = _context.GetAllBasketItems(User.Identity.Name);
+            List<Product> productList = new List<Product>();
+
+            foreach (var item in basketList)
+            {
+                Product product = _invContext.GetProductByID(item.ProductID);
+                productList.Add(product);
+
+            }
+            BasketViewModel bvm = new BasketViewModel(basketList, productList);
+
+            OrderViewModel ovm = new OrderViewModel();
+            ovm.TheOrder = bvm;
+
+            return View(ovm);
         }
 
 
