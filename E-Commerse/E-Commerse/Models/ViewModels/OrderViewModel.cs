@@ -17,7 +17,6 @@ namespace ECommerse.Models.ViewModels
         //{
         //    Basket = basket;
         //    UserID = userID;
-
         //}
 
         public OrderViewModel()

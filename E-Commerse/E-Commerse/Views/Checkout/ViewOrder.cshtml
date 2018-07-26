@@ -8,7 +8,6 @@
 <h2>Review your Order</h2>
 
 
-@*refactor to display only names and prices*@
 @foreach (var item in Model.TheOrder.Products)
 {
     <h3>@item.Name</h3>
@@ -16,11 +15,16 @@
 }
 
 
-<form>
-    <div>
-        <label asp-for="@Model.UserOrder.ShippingAddress"></label>
-        <input asp-for="@Model.UserOrder.ShippingAddress" />
-    </div>
-</form>
+    <form>
+        <div>
+            <label asp-for="@Model.UserOrder.ShippingAddress"></label>
+            <input asp-for="@Model.UserOrder.ShippingAddress" />
+        </div>
 
-<a asp-action="Checkout" asp-controller="Checkout">Proceed to Check Out</a>
+        <div>
+            <label asp-for="@Model.UserOrder.CardNumber"></label>
+            <input asp-for="@Model.UserOrder.CardNumber" />
+        </div>
+    </form>
+
+<a asp-action="Receipt" asp-controller="Checkout">Proceed to Check Out</a>
