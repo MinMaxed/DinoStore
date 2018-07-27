@@ -16,16 +16,16 @@ namespace ECommerse.Models
             return html.ToString();
         }
 
-        public static string OrderConfirmationEmail(BasketViewModel basket, string name)
+        public static string OrderConfirmationEmail(List<BasketItem> basket, List<Product> products, string name)
         {
             Product product;
             decimal cost;
             decimal total = 0M;
             StringBuilder html = new StringBuilder($"<h1>Thank you for your purchase, {name}!</h1>");
             html.Append("<p>Here is your reciept:</p><hr/>");
-            foreach (BasketItem item in basket.BasketItems)
+            foreach (BasketItem item in basket)
             {
-                product = basket.Products.Find(p => p.ID == item.ProductID);
+                product = products.Find(p => p.ID == item.ProductID);
                 cost = product.Price * item.Quantity;
                 total += cost;
                 html.Append($"<h2>{product.Name}</h2>");

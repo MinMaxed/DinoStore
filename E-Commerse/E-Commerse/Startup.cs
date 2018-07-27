@@ -24,14 +24,14 @@ namespace ECommerse
         public Startup(IConfiguration configuration)
         {
 
-            //var builder = new ConfigurationBuilder().AddEnvironmentVariables();
-            //builder.AddUserSecrets<Startup>();
+            var builder = new ConfigurationBuilder().AddEnvironmentVariables();
+            builder.AddUserSecrets<Startup>();
 
             //for local
-            Configuration = configuration;
+            //Configuration = configuration;
 
             //for deploy
-            //Configuration = builder.Build();
+            Configuration = builder.Build();
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -64,25 +64,25 @@ namespace ECommerse
             });
 
             //local Ben
-            services.AddDbContext<InventoryDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("LocalProducts")));
-
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("LocalUsers")));
-
-            //local Max
-          //  services.AddDbContext<InventoryDbContext>(options =>
-          //options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
-          //  services.AddDbContext<ApplicationDbContext>(options =>
-          //  options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
-            //deployed
             //services.AddDbContext<InventoryDbContext>(options =>
-            //   options.UseSqlServer(Configuration.GetConnectionString("ProductionConnection")));
+            //    options.UseSqlServer(Configuration.GetConnectionString("LocalProducts")));
 
             //services.AddDbContext<ApplicationDbContext>(options =>
-            //    options.UseSqlServer(Configuration.GetConnectionString("UserConnection")));
+            //    options.UseSqlServer(Configuration.GetConnectionString("LocalUsers")));
+
+            //local Max
+            //  services.AddDbContext<InventoryDbContext>(options =>
+            //options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            //  services.AddDbContext<ApplicationDbContext>(options =>
+            //  options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            //deployed
+            services.AddDbContext<InventoryDbContext>(options =>
+               options.UseSqlServer(Configuration.GetConnectionString("ProductionConnection")));
+
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("UserConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()

@@ -7,6 +7,7 @@ using ECommerse.Models;
 using ECommerse.Models.Interfaces;
 using ECommerse.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerse.Controllers
@@ -16,6 +17,7 @@ namespace ECommerse.Controllers
         private UserManager<ApplicationUser> _userManager;
         private IBasket _context;
         private IInventory _invContext;
+        private IEmailSender _emailSender;
 
         public CheckoutController(IBasket context, UserManager<ApplicationUser> userManager, IInventory invContext)
         {
@@ -94,6 +96,8 @@ namespace ECommerse.Controllers
             orderViewModel.UserOrder.Total = total;
 
             _invContext.UpdateOrder(orderViewModel.UserOrder);
+
+            EmailGenerator.OrderConfirmationEmail(basketList, productList, User.Claims.First(c => c.Type == "FirstName").Value);
 
             return View(orderViewModel);
         }
