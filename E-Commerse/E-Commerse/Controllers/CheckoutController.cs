@@ -32,7 +32,6 @@ namespace ECommerse.Controllers
 
         public IActionResult ViewOrder()
         {
-    
             List<BasketItem> basketList = _context.GetAllBasketItems(User.Identity.Name);
             List<Product> productList = new List<Product>();
 
@@ -43,15 +42,12 @@ namespace ECommerse.Controllers
                 productList.Add(product);
                 total = total + product.Price;
             }
-
-            BasketViewModel bvm = new BasketViewModel(basketList, productList);
-
             Order userOrder = new Order();
             userOrder.Total = total;
 
             OrderViewModel ovm = new OrderViewModel();
-            ovm.TheOrder = bvm;
             ovm.UserOrder = userOrder;
+            ovm.Products = productList;
 
             return View(ovm);
         }
@@ -68,42 +64,39 @@ namespace ECommerse.Controllers
         }
 
 
-        public IActionResult Receipt()
+        [HttpPost]
+        public IActionResult Receipt([FromForm]OrderViewModel orderViewModel)
         {
             List<BasketItem> basketList = _context.GetAllBasketItems(User.Identity.Name);
             List<Product> productList = new List<Product>();
+            List<OrderItem> orderList = new List<OrderItem>();
+
+            _invContext.SaveOrder(orderViewModel.UserOrder);
 
             decimal total = 0;
             foreach (var item in basketList)
             {
+                OrderItem orderItem = new OrderItem
+                {
+                    OrderID = orderViewModel.UserOrder.ID,
+                    ProductID = item.ProductID,
+                    Quantity = item.Quantity,
+                };
                 Product product = _invContext.GetProductByID(item.ProductID);
                 productList.Add(product);
                 total = total + product.Price;
+
+                _invContext.SaveOrderItem(orderItem);
+                orderList.Add(orderItem);
             }
-            BasketViewModel bvm = new BasketViewModel(basketList, productList);
-            Order userOrder = new Order();
-            userOrder.TransactionCompleted = true;
-            userOrder.Total = total;
+            orderViewModel.UserOrder.TransactionCompleted = true;
+            orderViewModel.Products = productList;
+            orderViewModel.UserOrder.Total = total;
 
-            OrderViewModel ovm = new OrderViewModel();
-            ovm.TheOrder = bvm;
+            _invContext.UpdateOrder(orderViewModel.UserOrder);
 
-            ovm.UserOrder = userOrder;
-
-            return View(ovm);
+            return View(orderViewModel);
         }
 
-
-
-        public bool CompletedOrder()
-        {
-            Order order = new Order();
-            List<BasketItem> basketList = _context.GetAllBasketItems(User.Identity.Name);
-
-            order.OrderItems = basketList;
-
-            _invContext.CompleteOrder(order);
-            return order.TransactionCompleted;
-        }
     }
 }

@@ -9,20 +9,17 @@ namespace ECommerse.Models
     public class Order
     {
         public int ID { get; set; }
+        public string UserEmail { get; set; }
 
-        public List<BasketItem> OrderItems { get; set; }
-        public int UserID { get; set; }
-
-        public decimal Total { get; set; }
-        public bool TransactionCompleted = false;
+        public decimal Total { get; set; } = 0;
+        public bool TransactionCompleted { get; set; } = false;
 
         [Required]
-        [Display(Name="Shipping Address")]
+        [Display(Name = "Shipping Address")]
         public string ShippingAddress { get; set; }
 
         [Required]
-        [Display(Name="Card Info")]
+        [Display(Name = "Card Info")]
         public string CardNumber { get; set; }
-
     }
 }

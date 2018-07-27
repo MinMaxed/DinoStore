@@ -38,7 +38,6 @@ namespace ECommerse.Models
             _context.SaveChanges();
         }
 
-
         public void AddToBasket(int productID, string userEmail)
         {
             int basketID = _context.Baskets.Single(b => b.UserEmail == userEmail).ID;
@@ -50,7 +49,6 @@ namespace ECommerse.Models
                 _context.BasketItems.Add(bi);
                 _context.SaveChanges();
             }
-
         }
 
         public void EmptyBasket()

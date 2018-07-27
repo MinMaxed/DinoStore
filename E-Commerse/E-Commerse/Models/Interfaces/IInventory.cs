@@ -15,8 +15,9 @@ namespace ECommerse.Models
         void DeleteProduct(int id);
 
 
-
         //checkout/Orders might need to move to a different interface
-        bool CompleteOrder(Order order);
+        void SaveOrder(Order order);
+        void UpdateOrder(Order order);
+        void SaveOrderItem(OrderItem orderItem);
     }
 }

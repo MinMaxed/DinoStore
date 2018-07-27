@@ -47,10 +47,28 @@ namespace ECommerse.Models
             _context.SaveChanges();
         }
 
+        //--------------------------------------------------------------------------//
+        /// <summary>
+        /// orders and order items
+        /// </summary>
 
-        public bool CompleteOrder(Order order)
+        public void SaveOrder(Order order)
         {
-            throw new NotImplementedException();
+            _context.Orders.Add(order);
+            _context.SaveChanges();
+        }
+
+
+        public void UpdateOrder(Order order)
+        {
+            _context.Orders.Update(order);
+            _context.SaveChanges();
+        }
+
+        public void SaveOrderItem(OrderItem orderItem)
+        {
+            _context.OrderItems.Add(orderItem);
+            _context.SaveChanges();
         }
     }
 }
