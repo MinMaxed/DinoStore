@@ -1,0 +1,33 @@
+﻿@model ECommerse.Models.ViewModels.OrderViewModel
+
+
+@{
+    ViewData["Title"] = "ViewOrder";
+}
+
+<h2>Review your Order</h2>
+
+
+@foreach (var item in Model.Products)
+{
+    <h3>@item.Name</h3>
+    <h3>@item.Price</h3>
+}
+
+<h3>@Model.UserOrder.Total</h3>
+
+<form method="post" asp-action="Receipt" asp-controller="Checkout">
+    <div>
+        <label asp-for="@Model.UserOrder.ShippingAddress"></label>
+        <input asp-for="@Model.UserOrder.ShippingAddress" />
+    </div>
+
+    <div>
+        <label asp-for="@Model.UserOrder.CardNumber"></label>
+        <input asp-for="@Model.UserOrder.CardNumber" />
+    </div>
+    <div>        
+        <button type="submit" class="btn" asp-action="Receipt" asp-controller="Checkout">Finalize</button>
+    </div>
+</form>
+

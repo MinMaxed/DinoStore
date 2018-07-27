@@ -22,7 +22,7 @@ namespace ECommerse.Data
                       ID = 1,
                       Sku = "00001",
                       Name = "Tyranosaurus",
-                      Price = 199.99m,
+                      Price = 1.99m,
                       Description = "King of the Dinos",
                       Image = @"\Images\Tyrannosaurus.jpg"
                   },
@@ -32,7 +32,7 @@ namespace ECommerse.Data
                      ID = 2,
                      Sku = "00002",
                      Name = "Triceratops",
-                     Price = 199.99m,
+                     Price = 1.99m,
                      Description = "3 times the power of a Rhinocerous",
                      Image = @"\Images\Triceratops.jpg"
                  },
@@ -42,7 +42,7 @@ namespace ECommerse.Data
                      ID = 3,
                      Sku = "00003",
                      Name = "Pteradactyl",
-                     Price = 199.99m,
+                     Price = 1.99m,
                      Description = "Soaring the skies",
                      Image = @"\Images\Pteradactyl.jpg"
                  },
@@ -52,7 +52,7 @@ namespace ECommerse.Data
                      ID = 4,
                      Sku = "00004",
                      Name = "Brachiosaurus",
-                     Price = 199.99m,
+                     Price = 1.99m,
                      Description = "Grandpa of the giraffe",
                      Image = @"\Images\Brachiosaurus.jpg"
                  },
@@ -62,9 +62,9 @@ namespace ECommerse.Data
                      ID = 5,
                      Sku = "00005",
                      Name = "Ankylosaurus",
-                     Price = 199.99m,
+                     Price = 1.99m,
                      Description = "The walking tank of the Cretaceous",
-                     Image = @"\Images\Ankylosaurus.jpg"
+                     Image = @"\Images\Anklyosaurus.jpg"
                  },
 
                 new Product()
@@ -72,7 +72,7 @@ namespace ECommerse.Data
                     ID = 6,
                     Sku = "00006",
                     Name = "Velociraptor",
-                    Price = 199.99m,
+                    Price = 1.99m,
                     Description = "Pack hunting terror of the Creatceous",
                     Image = @"\Images\Velociraptor.jpg"
                 },
@@ -81,8 +81,8 @@ namespace ECommerse.Data
                 {
                     ID = 7,
                     Sku = "00007",
-                    Name = "Archeopteryx",
-                    Price = 199.99m,
+                    Name = "Archaeopteryx",
+                    Price = 1.99m,
                     Description = "The missing link",
                     Image = @"\Images\Archaeopteryx.jpg"
                 },
@@ -92,7 +92,7 @@ namespace ECommerse.Data
                      ID = 8,
                      Sku = "00008",
                      Name = "Allosaurus",
-                     Price = 199.99m,
+                     Price = 1.99m,
                      Description = "Jurassic terror",
                      Image = @"\Images\Allosaurus.jpg"
                  },
@@ -102,7 +102,7 @@ namespace ECommerse.Data
                      ID = 9,
                      Sku = "00009",
                      Name = "Pachycephalosaurus",
-                     Price = 199.99m,
+                     Price = 1.99m,
                      Description = "The two legged herbivore with a powerful headbutt",
                      Image = @"\Images\Pachycephalosaurus.jpg"
                  },
@@ -112,7 +112,7 @@ namespace ECommerse.Data
                      ID = 10,
                      Sku = "00010",
                      Name = "Stegosaurus",
-                     Price = 199.99m,
+                     Price = 1.99m,
                      Description = "A plated beheamoth with a powerful defensive tail",
                      Image = @"\Images\Stegosaurus.jpg"
                  }
@@ -120,5 +120,10 @@ namespace ECommerse.Data
         }
 
         public DbSet<Product> Products { get; set; }
+        public DbSet<Basket> Baskets { get; set; }
+        public DbSet<BasketItem> BasketItems { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+
     }
 }

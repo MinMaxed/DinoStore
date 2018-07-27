@@ -4,9 +4,11 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using ECommerse.Models;
+using ECommerse.Models.Interfaces;
 using ECommerse.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerse.Controllers
@@ -16,11 +18,16 @@ namespace ECommerse.Controllers
     {
         private UserManager<ApplicationUser> _userManager;
         private SignInManager<ApplicationUser> _signInManager;
+        private IBasket _basketContext;
+        private IEmailSender _emailSender;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IBasket basketContext, IEmailSender emailSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _basketContext = basketContext;
+            _emailSender = emailSender;
         }
 
         [AllowAnonymous]
@@ -61,7 +68,7 @@ namespace ECommerse.Controllers
                 /// for things like birthday discounts 
                 if (result.Succeeded)
                 {
-                    Claim nameClaim = new Claim("FirstName", user.FirstName);
+                    Claim nameClaim = new Claim("FullName", $"{user.FirstName} {user.LastName}");
                     Claim birthdayClaim = new Claim(ClaimTypes.DateOfBirth,
                         new DateTime(user.Birthday.Year,
                         user.Birthday.Month,
@@ -74,11 +81,6 @@ namespace ECommerse.Controllers
                     claims.Add(birthdayClaim);
                     claims.Add(emailClaim);
 
-                    if (user.FirstName == "Amanda" && user.LastName == "Iverson")
-                    {
-                        claims.Add(new Claim("IsAmanda", "true"));
-                    }
-
                     await _userManager.AddClaimsAsync(user, claims);
 
                     if (user.Email.Substring(user.Email.IndexOf('@')) == "@dinostore.com")
@@ -89,6 +91,10 @@ namespace ECommerse.Controllers
                     await _userManager.AddToRoleAsync(user, ApplicationRoles.Member);
 
                     await _signInManager.SignInAsync(user, false);
+                     _basketContext.CreateBasket(user.Email);
+
+                    string htmlMessage = EmailGenerator.WelcomeEmail(nameClaim.Value);
+                    await _emailSender.SendEmailAsync(user.Email, "Welcome to DinoStore!", htmlMessage);
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -133,5 +139,94 @@ namespace ECommerse.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+
+        //External login
+        [AllowAnonymous]
+        public IActionResult ExternalLogin(string provider)
+        {
+            var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "Account");
+            var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+            return Challenge(properties, provider);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> ExternalLoginCallback(string remoteError = null)
+        {
+            if (remoteError != null)
+            {
+                TempData["ErrorMessage"] = "Error from provider";
+                return RedirectToAction(nameof(Login));
+            }
+
+            //check if the web supports external async
+            var info = await _signInManager.GetExternalLoginInfoAsync();
+
+            if (info == null)
+            {
+                return RedirectToAction(nameof(Login));
+            }
+
+            //if the above isnt true, use external log in
+            var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey,
+                isPersistent: false, bypassTwoFactor: true);
+
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+
+            return View("ExternalLogin", new ExternalLoginViewModel { Email = email });
+        }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> ExternalLoginConfirmation(ExternalLoginViewModel elvm)
+        {
+            if(ModelState.IsValid)
+            {
+                var info = await _signInManager.GetExternalLoginInfoAsync();
+                if(info == null)
+                {
+                    //change for final
+                    TempData["Error"] = "Error from ExternalLoginConfirmation";
+                }
+
+                //add password creation
+                var user = new ApplicationUser { UserName = elvm.Email, Email = elvm.Email };
+
+                var result = await _userManager.CreateAsync(user, elvm.Password);
+                List<Claim> claims = new List<Claim>();
+
+
+                if (result.Succeeded)
+                {
+                    Claim nameClaim = new Claim("FullName", $"{user.FirstName} {user.LastName}");
+                    Claim birthdayClaim = new Claim(ClaimTypes.DateOfBirth,
+                        new DateTime(user.Birthday.Year,
+                        user.Birthday.Month,
+                        user.Birthday.Day)
+                        .ToString("u"),
+                        ClaimValueTypes.DateTime);
+                    Claim emailClaim = new Claim(ClaimTypes.Email, user.Email, ClaimValueTypes.Email);
+
+                    claims.Add(nameClaim);
+                    claims.Add(birthdayClaim);
+                    claims.Add(emailClaim);
+
+                    await _userManager.AddClaimsAsync(user, claims);
+
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    _basketContext.CreateBasket(user.Email);
+
+
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+
+            return View(elvm);
+        }
+
     }
 }

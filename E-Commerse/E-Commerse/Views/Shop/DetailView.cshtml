@@ -9,3 +9,10 @@
 <h3>@Model.Description</h3>
 <h3>@Model.Price</h3>
 
+@if (SignInManager.IsSignedIn(User))
+{
+    <h2><a asp-controller="Basket" asp-action="AddToBasket" asp-route-id="@Model.ID">Add to Basket</a></h2>
+
+}
+
+

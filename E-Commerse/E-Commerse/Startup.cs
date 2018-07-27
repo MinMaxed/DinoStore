@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 using ECommerse.Data;
 using ECommerse.Models;
 using ECommerse.Models.Handlers;
+using ECommerse.Models.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,8 +24,8 @@ namespace ECommerse
         public Startup(IConfiguration configuration)
         {
 
-            var builder = new ConfigurationBuilder().AddEnvironmentVariables();
-            builder.AddUserSecrets<Startup>();
+            //var builder = new ConfigurationBuilder().AddEnvironmentVariables();
+            //builder.AddUserSecrets<Startup>();
 
             //for local
             Configuration = configuration;
@@ -38,20 +40,42 @@ namespace ECommerse
         {
             services.AddMvc();
             services.AddScoped<IInventory, DevInventory>();
+            services.AddScoped<IBasket, DevBasket>();
+            services.AddScoped<IEmailSender, EmailSender>();
+
 
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
-                options.AddPolicy("AmandaOnly", policy => policy.RequireClaim("IsAmanda"));
+                options.AddPolicy("AmandaOnly", policy => policy.Requirements.Add(new NameRequirement("Amanda Iverson")));
                 options.AddPolicy("MicrosoftOnly", policy => policy.Requirements.Add(new EmailRequirement("@microsoft.com")));
             });
 
-            //local
+            services.AddAuthentication().AddGoogle(google =>
+            {
+                google.ClientId = Configuration["Authentication:Google:ClientId"];
+                google.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+            });
+
+            services.AddAuthentication().AddFacebook(facebook =>
+            {
+                facebook.AppId = Configuration["Authentication:Facebook:AppId"];
+                facebook.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+            });
+
+            //local Ben
             services.AddDbContext<InventoryDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("ProductsConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("LocalProducts")));
 
             services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("UsersConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("LocalUsers")));
+
+            //local Max
+          //  services.AddDbContext<InventoryDbContext>(options =>
+          //options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+          //  services.AddDbContext<ApplicationDbContext>(options =>
+          //  options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             //deployed
             //services.AddDbContext<InventoryDbContext>(options =>
@@ -76,6 +100,7 @@ namespace ECommerse
             app.UseAuthentication();
             app.UseMvcWithDefaultRoute();
             app.UseStaticFiles();
+
 
             app.Run(async (context) =>
             {
