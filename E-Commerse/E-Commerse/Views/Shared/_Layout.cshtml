@@ -56,7 +56,7 @@
         @if (SignInManager.IsSignedIn(User) && !User.IsInRole("Admin") && (string)ViewData["Title"] != "Basket Index")
         {
         <div id="basket">
-            <h2>Your Basket - <a asp-controller="Basket" asp-action="Index">Cart</a></h2>
+            <h2>Your Basket - <a asp-controller="Basket" asp-action="Index">Basket</a></h2>
             @{
                 string email = User.FindFirst(c => c.Type == ClaimTypes.Email).Value;
                 @await Component.InvokeAsync("BasketVC", email);

@@ -7,7 +7,6 @@ using ECommerse.Models;
 using ECommerse.Models.Interfaces;
 using ECommerse.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerse.Controllers
@@ -17,15 +16,12 @@ namespace ECommerse.Controllers
         private UserManager<ApplicationUser> _userManager;
         private IBasket _context;
         private IInventory _invContext;
-        private IEmailSender _emailSender;
 
-        public CheckoutController(IBasket context, UserManager<ApplicationUser> userManager,
-            IInventory invContext, IEmailSender emailSender)
+        public CheckoutController(IBasket context, UserManager<ApplicationUser> userManager, IInventory invContext)
         {
             _context = context;
             _userManager = userManager;
             _invContext = invContext;
-            _emailSender = emailSender;
         }
 
 
@@ -36,24 +32,25 @@ namespace ECommerse.Controllers
 
         public IActionResult ViewOrder()
         {
-    
             List<BasketItem> basketList = _context.GetAllBasketItems(User.Identity.Name);
             List<Product> productList = new List<Product>();
 
+            decimal total = 0;
             foreach (var item in basketList)
             {
                 Product product = _invContext.GetProductByID(item.ProductID);
                 productList.Add(product);
-                
-            }       
-            BasketViewModel bvm = new BasketViewModel(basketList, productList);
+                total = total + product.Price;
+            }
+            Order userOrder = new Order();
+            userOrder.Total = total;
 
             OrderViewModel ovm = new OrderViewModel();
-            ovm.TheOrder = bvm;
+            ovm.UserOrder = userOrder;
+            ovm.Products = productList;
 
             return View(ovm);
         }
-
 
 
 
@@ -66,30 +63,40 @@ namespace ECommerse.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Receipt()
-        {
-            string email = User.Identity.Name;
-            List<BasketItem> basketList = _context.GetAllBasketItems(email);
-            List<Product> productList = new List<Product>();
 
+        [HttpPost]
+        public IActionResult Receipt([FromForm]OrderViewModel orderViewModel)
+        {
+            List<BasketItem> basketList = _context.GetAllBasketItems(User.Identity.Name);
+            List<Product> productList = new List<Product>();
+            List<OrderItem> orderList = new List<OrderItem>();
+
+            _invContext.SaveOrder(orderViewModel.UserOrder);
+
+            decimal total = 0;
             foreach (var item in basketList)
             {
+                OrderItem orderItem = new OrderItem
+                {
+                    OrderID = orderViewModel.UserOrder.ID,
+                    ProductID = item.ProductID,
+                    Quantity = item.Quantity,
+                };
                 Product product = _invContext.GetProductByID(item.ProductID);
                 productList.Add(product);
+                total = total + product.Price;
 
+                _invContext.SaveOrderItem(orderItem);
+                orderList.Add(orderItem);
             }
-            BasketViewModel bvm = new BasketViewModel(basketList, productList);
+            orderViewModel.UserOrder.TransactionCompleted = true;
+            orderViewModel.Products = productList;
+            orderViewModel.UserOrder.Total = total;
 
-            OrderViewModel ovm = new OrderViewModel();
-            ovm.TheOrder = bvm;
+            _invContext.UpdateOrder(orderViewModel.UserOrder);
 
-            string name = User.Claims.First(c => c.Type == "FullName").Value;
-            string htmlMessage = EmailGenerator.OrderConfirmationEmail(bvm, name);
-            await _emailSender.SendEmailAsync(email, "Your DinoStore Reciept", htmlMessage);
-
-            return View(ovm);
+            return View(orderViewModel);
         }
-
 
     }
 }
