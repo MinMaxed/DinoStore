@@ -14,7 +14,7 @@ namespace ECommerse.Migrations.InventoryDb
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.1-rtm-30846")
+                .HasAnnotation("ProductVersion", "2.1.0-rtm-30799")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -57,9 +57,6 @@ namespace ECommerse.Migrations.InventoryDb
                     b.Property<string>("CardNumber")
                         .IsRequired();
 
-                    b.Property<string>("City")
-                        .IsRequired();
-
                     b.Property<string>("ShippingAddress")
                         .IsRequired();
 
@@ -68,9 +65,6 @@ namespace ECommerse.Migrations.InventoryDb
                     b.Property<bool>("TransactionCompleted");
 
                     b.Property<string>("UserEmail");
-
-                    b.Property<string>("Zip")
-                        .IsRequired();
 
                     b.HasKey("ID");
 
@@ -84,8 +78,6 @@ namespace ECommerse.Migrations.InventoryDb
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("OrderID");
-
-                    b.Property<decimal>("Price");
 
                     b.Property<int>("ProductID");
 
