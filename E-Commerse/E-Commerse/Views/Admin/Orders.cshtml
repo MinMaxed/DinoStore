@@ -1,0 +1,27 @@
+﻿@model List<ECommerse.Models.ViewModels.OrderViewModel>
+
+@{
+    ViewData["Title"] = "Orders";
+}
+
+<h2>Orders</h2>
+
+
+@*@for (var i = 0; i < 20; i++)
+    {
+        <h2>@Model.UserOrder.Total</h2>*@
+
+
+@for (var o = 0; o < Model.Count; o++)
+{
+    <h2>@Model[o].UserOrder.UserEmail</h2>
+    <h2>@Model[o].UserOrder.ShippingAddress</h2>
+    <h2>@Model[o].UserOrder.Total</h2>
+
+    @foreach (var prod in Model[o].Products)
+    {
+        <h2>@prod.Sku</h2>
+        <h2>@prod.Price</h2>
+    }
+
+}
