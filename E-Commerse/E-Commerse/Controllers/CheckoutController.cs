@@ -67,39 +67,41 @@ namespace ECommerse.Controllers
 
 
         [HttpPost]
-        public IActionResult Receipt([FromForm]OrderViewModel orderViewModel)
+        public IActionResult Receipt([FromForm]OrderViewModel ovm)
         {
             List<BasketItem> basketList = _context.GetAllBasketItems(User.Identity.Name);
             List<Product> productList = new List<Product>();
             List<OrderItem> orderList = new List<OrderItem>();
 
-            _invContext.SaveOrder(orderViewModel.UserOrder);
+            _invContext.SaveOrder(ovm.UserOrder);
 
             decimal total = 0;
             foreach (var item in basketList)
             {
+                Product product = _invContext.GetProductByID(item.ProductID);
                 OrderItem orderItem = new OrderItem
                 {
-                    OrderID = orderViewModel.UserOrder.ID,
+                    OrderID = ovm.UserOrder.ID,
                     ProductID = item.ProductID,
                     Quantity = item.Quantity,
+                    Price = product.Price
                 };
-                Product product = _invContext.GetProductByID(item.ProductID);
+                
                 productList.Add(product);
                 total = total + product.Price;
 
                 _invContext.SaveOrderItem(orderItem);
                 orderList.Add(orderItem);
             }
-            orderViewModel.UserOrder.TransactionCompleted = true;
-            orderViewModel.Products = productList;
-            orderViewModel.UserOrder.Total = total;
+            ovm.UserOrder.TransactionCompleted = true;
+            ovm.UserOrder.UserEmail = User.Identity.Name;
+            
+            ovm.Products = productList;
+            ovm.UserOrder.Total = total;
 
-            _invContext.UpdateOrder(orderViewModel.UserOrder);
+            _invContext.UpdateOrder(ovm.UserOrder);
 
-            EmailGenerator.OrderConfirmationEmail(basketList, productList, User.Claims.First(c => c.Type == "FirstName").Value);
-
-            return View(orderViewModel);
+            return View(ovm);
         }
 
     }

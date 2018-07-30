@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ECommerse.Models.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,5 +20,8 @@ namespace ECommerse.Models
         void SaveOrder(Order order);
         void UpdateOrder(Order order);
         void SaveOrderItem(OrderItem orderItem);
+
+        List<OrderViewModel> OrderList();
+        List<OrderItem> GetOrderItems(int orderID);
     }
 }

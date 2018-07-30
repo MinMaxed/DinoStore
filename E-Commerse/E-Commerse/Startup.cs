@@ -28,11 +28,12 @@ namespace ECommerse
             builder.AddUserSecrets<Startup>();
 
             //for local
-            //Configuration = configuration;
+            Configuration = configuration;
 
             //for deploy
             Configuration = builder.Build();
         }
+
 
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
@@ -63,12 +64,14 @@ namespace ECommerse
                 facebook.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
             });
 
-            //local Ben
-            //services.AddDbContext<InventoryDbContext>(options =>
-            //    options.UseSqlServer(Configuration.GetConnectionString("LocalProducts")));
+            //-------------------------------------------------------------------
 
-            //services.AddDbContext<ApplicationDbContext>(options =>
-            //    options.UseSqlServer(Configuration.GetConnectionString("LocalUsers")));
+            //local Ben
+            services.AddDbContext<InventoryDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("LocalProducts")));
+
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("LocalUsers")));
 
             //local Max
             //  services.AddDbContext<InventoryDbContext>(options =>
@@ -83,6 +86,8 @@ namespace ECommerse
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("UserConnection")));
+
+            //----------------------------------------------------------------------
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
