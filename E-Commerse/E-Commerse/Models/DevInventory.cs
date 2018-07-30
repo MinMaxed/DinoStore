@@ -80,8 +80,7 @@ namespace ECommerse.Models
         /// </summary>
         /// <returns>List of OVMs, one for each Order</returns>
         public List<OrderViewModel> OrderList()
-        {
-            
+        {           
             IEnumerable<Order> RecentOrders = _context.Orders.ToList();
             List<OrderViewModel> lovm = new List<OrderViewModel>();
             List<Product> prods = _context.Products.ToList();
@@ -91,22 +90,27 @@ namespace ECommerse.Models
             {
                 if (item != null)
                 {
-
-
                     OrderViewModel ovm = new OrderViewModel();
+                   //was getting error when going directly to the ovm.UserOrder
                     Order ord = new Order();
                     ord.ShippingAddress = item.ShippingAddress;
                     ord.Total = item.Total;
                     ord.UserEmail = item.UserEmail;
                     ovm.UserOrder = ord;
-                    ovm.OrderList = _context.OrderItems.Where(o => o.OrderID == item.ID).ToList();
 
+                    ovm.OrderList = loi.Where(o => o.OrderID == item.ID).ToList();
+                    //List<Product> prods = new List<Product>();
+
+                    ////only sending 1 prod
                     foreach (var oi in ovm.OrderList)
                     {
                         ovm.Products = prods.Where(p => p.ID == oi.ProductID).ToList();
                     }
                     lovm.Add(ovm);
                 }
+
+
+                 
             }
             return lovm;
        
