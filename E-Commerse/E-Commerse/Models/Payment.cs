@@ -7,12 +7,13 @@ using AuthorizeNet.Api.Controllers;
 using AuthorizeNet.Api.Contracts.V1;
 using AuthorizeNet.Api.Controllers.Bases;
 using Microsoft.AspNetCore.Identity;
+using ECommerse.Models.Interfaces;
 
 namespace ECommerse.Models
 {
     public class Payment
     {
-        private static IConfiguration Configuration;
+        static IConfiguration Configuration;
         private static IInventory Inventory;
         private static UserManager<ApplicationUser> UserManager;
 
@@ -23,11 +24,10 @@ namespace ECommerse.Models
             UserManager = userManager;
         }
 
-        public static void Run(Order order)
+        public void Run(Order order)
         {
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.SANDBOX;
-            ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = new merchantAuthenticationType()
-            {
+            ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication = new merchantAuthenticationType{
                 name = Configuration["Authentication:AuthorizeNet:LoginId"],
                 ItemElementName = ItemChoiceType.transactionKey,
                 Item = Configuration["Authentication:AuthorizeNet:TransactionKey"]
