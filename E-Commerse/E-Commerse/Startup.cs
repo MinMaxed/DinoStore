@@ -27,11 +27,11 @@ namespace ECommerse
             var builder = new ConfigurationBuilder().AddEnvironmentVariables();
             builder.AddUserSecrets<Startup>();
 
+            //for deploy
+            //Configuration = builder.Build();
+
             //for local
             Configuration = configuration;
-
-            //for deploy
-            Configuration = builder.Build();
         }
 
 
@@ -74,18 +74,18 @@ namespace ECommerse
                 options.UseSqlServer(Configuration.GetConnectionString("LocalUsers")));
 
             //local Max
-            //  services.AddDbContext<InventoryDbContext>(options =>
-            //options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+          //  services.AddDbContext<InventoryDbContext>(options =>
+          //options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            //  services.AddDbContext<ApplicationDbContext>(options =>
-            //  options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+          //  services.AddDbContext<ApplicationDbContext>(options =>
+          //  options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             //deployed
-            services.AddDbContext<InventoryDbContext>(options =>
-               options.UseSqlServer(Configuration.GetConnectionString("ProductionConnection")));
+            //services.AddDbContext<InventoryDbContext>(options =>
+            //   options.UseSqlServer(Configuration.GetConnectionString("ProductionConnection")));
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("UserConnection")));
+            //services.AddDbContext<ApplicationDbContext>(options =>
+            //    options.UseSqlServer(Configuration.GetConnectionString("UserConnection")));
 
             //----------------------------------------------------------------------
 

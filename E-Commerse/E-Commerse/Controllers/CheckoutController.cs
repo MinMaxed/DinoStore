@@ -19,11 +19,13 @@ namespace ECommerse.Controllers
         private IInventory _invContext;
         private IEmailSender _emailSender;
 
-        public CheckoutController(IBasket context, UserManager<ApplicationUser> userManager, IInventory invContext)
+        public CheckoutController(IBasket context, UserManager<ApplicationUser> userManager,
+            IInventory invContext, IEmailSender emailSender)
         {
             _context = context;
             _userManager = userManager;
             _invContext = invContext;
+            _emailSender = emailSender;
         }
 
 
@@ -98,8 +100,12 @@ namespace ECommerse.Controllers
             
             ovm.Products = productList;
             ovm.UserOrder.Total = total;
+            ovm.OrderList = orderList;
 
             _invContext.UpdateOrder(ovm.UserOrder);
+
+            string htmlMessage = EmailGenerator.OrderConfirmationEmail(ovm, User.Claims.First(c => c.Type == "FullName").Value);
+            _emailSender.SendEmailAsync(ovm.UserOrder.UserEmail, "Your DinoStore Receipt", htmlMessage);
 
             return View(ovm);
         }
