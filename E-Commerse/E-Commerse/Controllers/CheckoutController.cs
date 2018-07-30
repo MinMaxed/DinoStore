@@ -9,6 +9,7 @@ using ECommerse.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace ECommerse.Controllers
 {
@@ -18,14 +19,16 @@ namespace ECommerse.Controllers
         private IBasket _context;
         private IInventory _invContext;
         private IEmailSender _emailSender;
+        private IConfiguration _configuration;
 
         public CheckoutController(IBasket context, UserManager<ApplicationUser> userManager,
-            IInventory invContext, IEmailSender emailSender)
+            IInventory invContext, IEmailSender emailSender, IConfiguration configuration)
         {
             _context = context;
             _userManager = userManager;
             _invContext = invContext;
             _emailSender = emailSender;
+            _configuration = configuration;
         }
 
 
@@ -106,6 +109,10 @@ namespace ECommerse.Controllers
 
             string htmlMessage = EmailGenerator.OrderConfirmationEmail(ovm, User.Claims.First(c => c.Type == "FullName").Value);
             _emailSender.SendEmailAsync(ovm.UserOrder.UserEmail, "Your DinoStore Receipt", htmlMessage);
+
+            Payment payment = new Payment(_configuration, _invContext, _userManager);
+
+            payment.Run(ovm.UserOrder);
 
             return View(ovm);
         }

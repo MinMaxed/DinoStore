@@ -43,7 +43,7 @@ namespace ECommerse
             services.AddScoped<IInventory, DevInventory>();
             services.AddScoped<IBasket, DevBasket>();
             services.AddScoped<IEmailSender, EmailSender>();
-
+            //services.AddSingleton(Configuration);
 
             services.AddAuthorization(options =>
             {
