@@ -23,10 +23,21 @@
     </div>
 
     <div>
+        <label asp-for="@Model.UserOrder.City"></label>
+        <input asp-for="@Model.UserOrder.City" />
+    </div>
+
+    <div>
+        <label asp-for="@Model.UserOrder.Zip"></label>
+        <input asp-for="@Model.UserOrder.Zip" />
+    </div>
+
+    <div>
         <label asp-for="@Model.UserOrder.CardNumber"></label>
         <input asp-for="@Model.UserOrder.CardNumber" />
     </div>
-    <div>        
+
+    <div>
         <button type="submit" class="btn" asp-action="Receipt" asp-controller="Checkout">Finalize</button>
     </div>
 </form>
