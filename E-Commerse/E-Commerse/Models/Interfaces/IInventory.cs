@@ -19,5 +19,6 @@ namespace ECommerse.Models
         void SaveOrder(Order order);
         void UpdateOrder(Order order);
         void SaveOrderItem(OrderItem orderItem);
+        List<OrderItem> GetOrderItems(int orderID);
     }
 }

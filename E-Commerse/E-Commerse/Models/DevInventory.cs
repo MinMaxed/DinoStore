@@ -70,5 +70,11 @@ namespace ECommerse.Models
             _context.OrderItems.Add(orderItem);
             _context.SaveChanges();
         }
+
+        public List<OrderItem> GetOrderItems(int orderID)
+        {
+            var items = _context.OrderItems.Where(item => item.OrderID == orderID);
+            return items.ToList();
+        }
     }
 }
