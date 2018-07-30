@@ -22,5 +22,6 @@ namespace ECommerse.Models
         void SaveOrderItem(OrderItem orderItem);
 
         List<OrderViewModel> OrderList();
+        List<OrderItem> GetOrderItems(int orderID);
     }
 }

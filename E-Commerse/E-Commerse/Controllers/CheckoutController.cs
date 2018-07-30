@@ -76,13 +76,15 @@ namespace ECommerse.Controllers
             decimal total = 0;
             foreach (var item in basketList)
             {
+                Product product = _invContext.GetProductByID(item.ProductID);
                 OrderItem orderItem = new OrderItem
                 {
                     OrderID = ovm.UserOrder.ID,
                     ProductID = item.ProductID,
                     Quantity = item.Quantity,
+                    Price = product.Price
                 };
-                Product product = _invContext.GetProductByID(item.ProductID);
+                
                 productList.Add(product);
                 total = total + product.Price;
 
