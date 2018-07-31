@@ -52,16 +52,30 @@ namespace ECommerse
                 options.AddPolicy("MicrosoftOnly", policy => policy.Requirements.Add(new EmailRequirement("@microsoft.com")));
             });
 
+            //for local?
+            //services.AddAuthentication().AddGoogle(google =>
+            //{
+            //    google.ClientId = Configuration["Authentication:Google:ClientId"];
+            //    google.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+            //});
+
+            //services.AddAuthentication().AddFacebook(facebook =>
+            //{
+            //    facebook.AppId = Configuration["Authentication:Facebook:AppId"];
+            //    facebook.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+            //});
+
+            //for deploy
             services.AddAuthentication().AddGoogle(google =>
             {
-                google.ClientId = Configuration["Authentication:Google:ClientId"];
-                google.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+                google.ClientId = Configuration["Google:ClientId"];
+                google.ClientSecret = Configuration["Google:ClientSecret"];
             });
 
             services.AddAuthentication().AddFacebook(facebook =>
             {
-                facebook.AppId = Configuration["Authentication:Facebook:AppId"];
-                facebook.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+                facebook.AppId = Configuration["Facebook:AppId"];
+                facebook.AppSecret = Configuration["Facebook:AppSecret"];
             });
 
             //-------------------------------------------------------------------
