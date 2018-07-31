@@ -13,10 +13,15 @@ User Table entries contain UserName, Email, PasswordHash, FirstName, LastName, B
 
 Inventory Databse:
 Products: ID, Sku, Name, Price, Description, Image
+
 Basket: ID, UserEmail == User.Email, 
+
 BasketItems: ID, Quantity,  ProductID == Product.ID, BasketID == Basket.ID
+
 Order: ID, UserEmail == User.Email, Total, TransactionCompleted, ShippingAddress, City, Zip, CardNumber
+
 OrderItem: ID, ProductID == Product.ID, OrderID == Order.ID, Quantity, Price 
+
 
 Currently it's set that the BasketItems and OrderItems point towards the Products as well as the Basket/Orders,
 and the Basket/Orders point to the User. This way we maintain one Basket/Order per user at a time, and the Items can bridge
