@@ -7,6 +7,8 @@ we capture their Email, Birthday, and First & Last Name.
 Our current policies are for AdminOnly, MicrosoftOnly, and AmandaOnly. 
 We have OAUTH security for Facebook and Google log in. 
 
+
+
 Data Schema
 User Database:
 User Table entries contain UserName, Email, PasswordHash, FirstName, LastName, Birthday
