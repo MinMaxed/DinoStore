@@ -15,9 +15,10 @@
             <img src="@product.Image" alt="@product.Description" />
             <h4>@product.Name</h4>
             <p>@product.Price</p>
+            <a asp-action="RemoveFromBasket" asp-controller="Basket" asp-route-ID="@item.ID">Remove</a> 
         </div>
         <div>
-            @*<a asp-route="Basket" asp-action="Remove" asp-route-id="@item.ID">
+            @*<a asp-route="Basket" asp-action="RemoveFromBasket" asp-route-id="@item.ID">
                     <i class="fas fa-times"></i>
                 </a>*@
         </div>

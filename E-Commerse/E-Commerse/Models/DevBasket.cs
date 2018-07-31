@@ -28,7 +28,6 @@ namespace ECommerse.Models
             return bi;
         }
 
-
         public void CreateBasket(string userEmail)
         {
             _context.Baskets.Add(new Basket

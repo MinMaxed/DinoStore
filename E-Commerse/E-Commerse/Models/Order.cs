@@ -13,7 +13,6 @@ namespace ECommerse.Models
 
         public decimal Total { get; set; } = 0;
         public bool TransactionCompleted { get; set; } = false;
-
         [Required]
         [Display(Name = "Shipping Address")]
         public string ShippingAddress { get; set; }

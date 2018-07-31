@@ -53,30 +53,30 @@ namespace ECommerse
             });
 
             //for local?
-            //services.AddAuthentication().AddGoogle(google =>
-            //{
-            //    google.ClientId = Configuration["Authentication:Google:ClientId"];
-            //    google.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
-            //});
-
-            //services.AddAuthentication().AddFacebook(facebook =>
-            //{
-            //    facebook.AppId = Configuration["Authentication:Facebook:AppId"];
-            //    facebook.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
-            //});
-
-            //for deploy
             services.AddAuthentication().AddGoogle(google =>
             {
-                google.ClientId = Configuration["Google:ClientId"];
-                google.ClientSecret = Configuration["Google:ClientSecret"];
+                google.ClientId = Configuration["Authentication:Google:ClientId"];
+                google.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
             });
 
             services.AddAuthentication().AddFacebook(facebook =>
             {
-                facebook.AppId = Configuration["Facebook:AppId"];
-                facebook.AppSecret = Configuration["Facebook:AppSecret"];
+                facebook.AppId = Configuration["Authentication:Facebook:AppId"];
+                facebook.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
             });
+
+            //for deploy
+            //services.AddAuthentication().AddGoogle(google =>
+            //{
+            //    google.ClientId = Configuration["Google:ClientId"];
+            //    google.ClientSecret = Configuration["Google:ClientSecret"];
+            //});
+
+            //services.AddAuthentication().AddFacebook(facebook =>
+            //{
+            //    facebook.AppId = Configuration["Facebook:AppId"];
+            //    facebook.AppSecret = Configuration["Facebook:AppSecret"];
+            //});
 
             //-------------------------------------------------------------------
 

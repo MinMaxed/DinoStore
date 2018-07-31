@@ -32,5 +32,12 @@ namespace ECommerse.Controllers
             _context.AddToBasket(ID, User.Identity.Name);
             return RedirectToAction("Index", "Shop");
         }
+
+        public IActionResult RemoveFromBasket(int ID)
+        {
+            _context.RemoveFromBasket(ID, User.Identity.Name);
+            return RedirectToAction("Index");
+        }
+
     }
 }
