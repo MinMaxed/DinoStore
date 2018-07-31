@@ -67,18 +67,18 @@ namespace ECommerse
             //-------------------------------------------------------------------
 
             //local Ben
-            services.AddDbContext<InventoryDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("LocalProducts")));
+            //services.AddDbContext<InventoryDbContext>(options =>
+            //    options.UseSqlServer(Configuration.GetConnectionString("LocalProducts")));
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("LocalUsers")));
+            //services.AddDbContext<ApplicationDbContext>(options =>
+            //    options.UseSqlServer(Configuration.GetConnectionString("LocalUsers")));
 
             //local Max
-          //  services.AddDbContext<InventoryDbContext>(options =>
-          //options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<InventoryDbContext>(options =>
+          options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-          //  services.AddDbContext<ApplicationDbContext>(options =>
-          //  options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             //deployed
             //services.AddDbContext<InventoryDbContext>(options =>
