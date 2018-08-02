@@ -146,5 +146,23 @@ namespace ECommerse.Models
             return ovm;
 
         }
+
+        public List<Order> GetLastThreeOrders(string email)
+        {
+            return _context.Orders.Where(o => o.UserEmail == email)
+                .OrderByDescending(x => x.ID).Take(3).ToList();
+        }
+
+        public List<List<OrderItem>> GetMultipleOrderItemLists(List<Order> orders)
+        {
+            List<List<OrderItem>> orderItems = new List<List<OrderItem>>();
+            foreach (Order order in orders)
+            {
+                orderItems.Add(GetOrderItems(order.ID));
+            }
+            return orderItems;
+        }
+
     }
+
 }

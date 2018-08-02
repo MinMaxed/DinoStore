@@ -1,0 +1,26 @@
+﻿@page
+@model ECommerse.Pages.OrdersModel
+@{
+    ViewData["Title"] = $"{User.Claims.First(c => c.Type == "FullName").Value}'s Orders";
+}
+
+<h2>Your Last 3 Orders</h2>
+
+<hr />
+
+@foreach (Order order in Model.Orders)
+{
+    <p><strong>Order ID:</strong> @order.ID</p>
+    <p><strong>Shipping Information:</strong> @order.ShippingAddress @order.City @order.Zip</p>
+    <p><strong>Total:</strong> $@order.Total</p>
+
+    <ul>
+        @foreach (OrderItem item in Model.OrderItems.First(x => x[0].OrderID == order.ID))
+        {
+            <li><strong>@Model.Products.First(x => x.ID == item.ProductID).Name:</strong>
+                Price: $@item.Price, Quantity: @item.Quantity</li>
+        }
+    </ul>
+
+    <hr />
+}

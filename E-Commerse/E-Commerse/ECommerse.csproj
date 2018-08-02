@@ -6,7 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\Shared\" />
+    <Compile Remove="Pages\Shared\**" />
+    <Content Remove="Pages\Shared\**" />
+    <EmbeddedResource Remove="Pages\Shared\**" />
+    <None Remove="Pages\Shared\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\Images\" />
   </ItemGroup>
 
@@ -19,9 +25,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Pages\_Layout.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
     <Content Update="Pages\_ViewImports.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
