@@ -26,5 +26,7 @@ namespace ECommerse.Models
 
         OrderViewModel OrderDetails(int orderID);
 
+        List<Order> GetLastThreeOrders(string email);
+        List<List<OrderItem>> GetMultipleOrderItemLists(List<Order> orders);
     }
 }
