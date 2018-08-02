@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Pages\Shared\" />
     <Folder Include="wwwroot\Images\" />
   </ItemGroup>
 
@@ -15,6 +16,15 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.0" />
     <PackageReference Include="SendGrid" Version="9.9.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Pages\_Layout.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Pages\_ViewImports.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
   </ItemGroup>
 
 </Project>

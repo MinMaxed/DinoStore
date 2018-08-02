@@ -9,6 +9,7 @@ using ECommerse.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 
 namespace ECommerse.Controllers
@@ -77,6 +78,8 @@ namespace ECommerse.Controllers
             List<BasketItem> basketList = _context.GetAllBasketItems(User.Identity.Name);
             List<Product> productList = new List<Product>();
             List<OrderItem> orderList = new List<OrderItem>();
+            List<SelectListItem> cardnumber = new List<SelectListItem>();
+            
 
             _invContext.SaveOrder(ovm.UserOrder);
 
@@ -98,6 +101,7 @@ namespace ECommerse.Controllers
                 _invContext.SaveOrderItem(orderItem);
                 orderList.Add(orderItem);
             }
+            
             ovm.UserOrder.TransactionCompleted = true;
             ovm.UserOrder.UserEmail = User.Identity.Name;
             

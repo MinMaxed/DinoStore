@@ -19,7 +19,7 @@ namespace ECommerse.Models
 
         public async Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
-            var client = new SendGridClient(Configuration["Keys:SendGrid"]);
+            var client = new SendGridClient(Configuration["SendGrid"]);
             var msg = new SendGridMessage();
 
             msg.SetFrom("admin@dinostore.com", "DinoStore Admin");
