@@ -10,7 +10,8 @@ namespace ECommerse.Models.ViewModels
     {
         public Order UserOrder { get; set; }
         public List<OrderItem> OrderList { get; set; }
-        public List<Product> Products { get; set; }
+        public List<Product> Products = new List<Product>();
+
         public List<SelectListItem> CardNumbers = new List<SelectListItem>
         {
             new SelectListItem {Text = "370000000000002", Value = "370000000000002"},

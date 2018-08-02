@@ -1,0 +1,21 @@
+﻿@model ECommerse.Models.ViewModels.OrderViewModel
+
+@{
+    ViewData["Title"] = "OrderDetails";
+}
+
+<h2>OrderDetails</h2>
+
+
+<h2>@Model.UserOrder.Total</h2>
+<h2>@Model.UserOrder.ShippingAddress</h2>
+<h2>@Model.UserOrder.UserEmail</h2>
+<h2>@Model.UserOrder.City</h2>
+
+@foreach (var item in Model.Products)
+{
+    <h3>@item.Name</h3>
+    <h3>@item.Sku</h3>
+    <h3>@item.Price</h3>
+
+}
