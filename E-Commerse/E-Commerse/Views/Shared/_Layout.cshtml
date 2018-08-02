@@ -21,15 +21,20 @@
             <ul class="navbar-nav mr-auto">
                 <li class="navbar-item">
                     <a class="nav-link" asp-controller="Shop" asp-action="Index">View Dinos</a>
+                    
+
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
                 @if (SignInManager.IsSignedIn(User))
                 {
-                    <li class="navbar-text" style="padding-right: 20px">
+                    <li class="navbar-text" style="padding-right: 10px">
                         Hello, @User.Claims.First(c => c.Type == "FullName").Value!
                     </li>
-                    @if (!User.IsInRole("Admin") && (string)ViewData["Title"] != "Basket Index")
+                    <li class="navbar-item">
+                        <a class="nav-link" asp-page="/Profile">View Profile</a>
+                    </li>
+                    @if (!User.IsInRole("Admin"))
                     {
                         <li class="nav-item">
                             <a href="" class="nav-link" id="sidebar-toggle">View Basket</a>

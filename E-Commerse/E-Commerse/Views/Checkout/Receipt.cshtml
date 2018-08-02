@@ -13,6 +13,8 @@
     <h3>@item.Price</h3>
 }
 
-<h3>@Model.UserOrder.Total</h3>
+<h4>Shippy address: @Model.UserOrder.ShippingAddress</h4>
+<h4>City: @Model.UserOrder.City</h4>
+<h3>Total: @Model.UserOrder.Total</h3>
 
-<h2>Thank you for shopping at The Dino Store!</h2>
+<h2>Thank you @User.Identity.Name for shopping at The Dino Store!</h2>

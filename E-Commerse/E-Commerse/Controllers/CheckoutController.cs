@@ -7,7 +7,10 @@ using ECommerse.Models;
 using ECommerse.Models.Interfaces;
 using ECommerse.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Configuration;
 
 namespace ECommerse.Controllers
 {
@@ -16,12 +19,17 @@ namespace ECommerse.Controllers
         private UserManager<ApplicationUser> _userManager;
         private IBasket _context;
         private IInventory _invContext;
+        private IEmailSender _emailSender;
+        private IConfiguration _configuration;
 
-        public CheckoutController(IBasket context, UserManager<ApplicationUser> userManager, IInventory invContext)
+        public CheckoutController(IBasket context, UserManager<ApplicationUser> userManager,
+            IInventory invContext, IEmailSender emailSender, IConfiguration configuration)
         {
             _context = context;
             _userManager = userManager;
             _invContext = invContext;
+            _emailSender = emailSender;
+            _configuration = configuration;
         }
 
 
@@ -65,20 +73,22 @@ namespace ECommerse.Controllers
 
 
         [HttpPost]
-        public IActionResult Receipt([FromForm]OrderViewModel orderViewModel)
+        public IActionResult Receipt([FromForm]OrderViewModel ovm)
         {
             List<BasketItem> basketList = _context.GetAllBasketItems(User.Identity.Name);
             List<Product> productList = new List<Product>();
             List<OrderItem> orderList = new List<OrderItem>();
+            List<SelectListItem> cardnumber = new List<SelectListItem>();
+            
 
-            _invContext.SaveOrder(orderViewModel.UserOrder);
+            _invContext.SaveOrder(ovm.UserOrder);
 
             decimal total = 0;
             foreach (var item in basketList)
             {
                 OrderItem orderItem = new OrderItem
                 {
-                    OrderID = orderViewModel.UserOrder.ID,
+                    OrderID = ovm.UserOrder.ID,
                     ProductID = item.ProductID,
                     Quantity = item.Quantity,
                 };
@@ -89,13 +99,24 @@ namespace ECommerse.Controllers
                 _invContext.SaveOrderItem(orderItem);
                 orderList.Add(orderItem);
             }
-            orderViewModel.UserOrder.TransactionCompleted = true;
-            orderViewModel.Products = productList;
-            orderViewModel.UserOrder.Total = total;
+            
+            ovm.UserOrder.TransactionCompleted = true;
+            ovm.UserOrder.UserEmail = User.Identity.Name;
+            
+            ovm.Products = productList;
+            ovm.UserOrder.Total = total;
+            ovm.OrderList = orderList;
 
-            _invContext.UpdateOrder(orderViewModel.UserOrder);
+            _invContext.UpdateOrder(ovm.UserOrder);
 
-            return View(orderViewModel);
+            string htmlMessage = EmailGenerator.OrderConfirmationEmail(ovm, User.Claims.First(c => c.Type == "FullName").Value);
+            _emailSender.SendEmailAsync(ovm.UserOrder.UserEmail, "Your DinoStore Receipt", htmlMessage);
+
+            Payment payment = new Payment(_configuration, _invContext, _userManager);
+
+            payment.Run(ovm.UserOrder);
+
+            return View(ovm);
         }
 
     }

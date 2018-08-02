@@ -24,7 +24,9 @@
 
     <div>
         <label asp-for="@Model.UserOrder.CardNumber"></label>
-        <input asp-for="@Model.UserOrder.CardNumber" />
+        <select asp-for="@Model.UserOrder.CardNumber" asp-items="@Model.CardNumbers">
+            <option value="">Select a Card</option>
+        </select>
     </div>
     <div>        
         <button type="submit" class="btn" asp-action="Receipt" asp-controller="Checkout">Finalize</button>

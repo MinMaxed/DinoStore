@@ -1,0 +1,25 @@
+﻿@model List<ECommerse.Models.ViewModels.OrderViewModel>
+
+@{
+    ViewData["Title"] = "Orders";
+}
+
+<h2>Orders</h2>
+
+
+@*@for (var i = 0; i < 20; i++)
+    {
+        <h2>@Model.UserOrder.Total</h2>*@
+
+
+@for (var o = 0; o < Model.Count; o++)
+{
+    <h2>@Model[o].UserOrder.UserEmail</h2>
+    <h2>address: @Model[o].UserOrder.ShippingAddress</h2>
+    <h2>total: @Model[o].UserOrder.Total</h2>
+    <p>@Model[o].UserOrder.ID</p>
+    <a asp-controller="Admin" asp-action="OrderDetails" asp-route-id="@Model[o].UserOrder.ID">Order Details</a>
+
+
+    <h2>--------------</h2>
+}

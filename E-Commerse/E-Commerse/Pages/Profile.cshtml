@@ -1,0 +1,26 @@
+﻿@page
+@model ECommerse.Pages.ProfileModel
+
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<a asp-page="Orders">Your Orders</a>
+
+<form method="post">
+    <div>
+        <label asp-for="FirstName"></label>
+        <input asp-for="FirstName" />
+    </div>
+    <div>
+        <label asp-for="LastName"></label>
+        <input asp-for="LastName" />
+    </div>
+
+    <div>
+        <label asp-for="Email">@Model.Email</label>
+        @*<input readonly="readonly" asp-for="Email" />*@
+    </div>
+ 
+    <button type="submit">Update</button>
+</form>
