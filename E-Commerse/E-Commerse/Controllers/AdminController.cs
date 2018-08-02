@@ -23,11 +23,20 @@ namespace ECommerse.Controllers
             return View();
         }
 
+        [HttpGet]
         public IActionResult Orders()
         {
             List<OrderViewModel> lovm = _context.OrderList();
 
             return View(lovm);
+        }
+
+        
+        public IActionResult OrderDetails(int id)
+        {
+            OrderViewModel ovm = _context.OrderDetails(id);
+
+            return View(ovm);
         }
     }
 }

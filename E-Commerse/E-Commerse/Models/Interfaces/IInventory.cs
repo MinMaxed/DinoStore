@@ -23,5 +23,8 @@ namespace ECommerse.Models
 
         List<OrderViewModel> OrderList();
         List<OrderItem> GetOrderItems(int orderID);
+
+        OrderViewModel OrderDetails(int orderID);
+
     }
 }

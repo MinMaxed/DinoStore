@@ -15,13 +15,11 @@
 @for (var o = 0; o < Model.Count; o++)
 {
     <h2>@Model[o].UserOrder.UserEmail</h2>
-    <h2>@Model[o].UserOrder.ShippingAddress</h2>
-    <h2>@Model[o].UserOrder.Total</h2>
+    <h2>address: @Model[o].UserOrder.ShippingAddress</h2>
+    <h2>total: @Model[o].UserOrder.Total</h2>
+    <p>@Model[o].UserOrder.ID</p>
+    <a asp-controller="Admin" asp-action="OrderDetails" asp-route-id="@Model[o].UserOrder.ID">Order Details</a>
 
-    @foreach (var prod in Model[o].Products)
-    {
-        <h3>@prod.Sku</h3>
-        <h3>@prod.Price</h3>
-    }
+
     <h2>--------------</h2>
 }
