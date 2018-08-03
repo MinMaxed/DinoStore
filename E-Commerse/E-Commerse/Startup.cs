@@ -28,10 +28,10 @@ namespace ECommerse
             builder.AddUserSecrets<Startup>();
 
             //for deploy
-            //Configuration = builder.Build();
+            Configuration = builder.Build();
 
             //for local
-            Configuration = configuration;
+            //Configuration = configuration;
         }
 
 
@@ -53,39 +53,39 @@ namespace ECommerse
             });
 
             //for local?
-            services.AddAuthentication().AddGoogle(google =>
-            {
-                google.ClientId = Configuration["Authentication:Google:ClientId"];
-                google.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
-            });
-
-            services.AddAuthentication().AddFacebook(facebook =>
-            {
-                facebook.AppId = Configuration["Authentication:Facebook:AppId"];
-                facebook.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
-            });
-
-            //for deploy
             //services.AddAuthentication().AddGoogle(google =>
             //{
-            //    google.ClientId = Configuration["Google:ClientId"];
-            //    google.ClientSecret = Configuration["Google:ClientSecret"];
+            //    google.ClientId = Configuration["Authentication:Google:ClientId"];
+            //    google.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
             //});
 
             //services.AddAuthentication().AddFacebook(facebook =>
             //{
-            //    facebook.AppId = Configuration["Facebook:AppId"];
-            //    facebook.AppSecret = Configuration["Facebook:AppSecret"];
+            //    facebook.AppId = Configuration["Authentication:Facebook:AppId"];
+            //    facebook.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
             //});
+
+            //for deploy
+            services.AddAuthentication().AddGoogle(google =>
+            {
+                google.ClientId = Configuration["Google:ClientId"];
+                google.ClientSecret = Configuration["Google:ClientSecret"];
+            });
+
+            services.AddAuthentication().AddFacebook(facebook =>
+            {
+                facebook.AppId = Configuration["Facebook:AppId"];
+                facebook.AppSecret = Configuration["Facebook:AppSecret"];
+            });
 
             //-------------------------------------------------------------------
 
             //local Ben
-            services.AddDbContext<InventoryDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("LocalProducts")));
+            //services.AddDbContext<InventoryDbContext>(options =>
+            //    options.UseSqlServer(Configuration.GetConnectionString("LocalProducts")));
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("LocalUsers")));
+            //services.AddDbContext<ApplicationDbContext>(options =>
+            //    options.UseSqlServer(Configuration.GetConnectionString("LocalUsers")));
 
             //local Max
             //  services.AddDbContext<InventoryDbContext>(options =>
@@ -95,11 +95,11 @@ namespace ECommerse
             //  options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             //deployed
-            //services.AddDbContext<InventoryDbContext>(options =>
-            //   options.UseSqlServer(Configuration.GetConnectionString("ProductionConnection")));
+            services.AddDbContext<InventoryDbContext>(options =>
+               options.UseSqlServer(Configuration.GetConnectionString("ProductionConnection")));
 
-            //services.AddDbContext<ApplicationDbContext>(options =>
-            //    options.UseSqlServer(Configuration.GetConnectionString("UserConnection")));
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("UserConnection")));
 
             //----------------------------------------------------------------------
 
