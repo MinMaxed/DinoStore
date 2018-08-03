@@ -81,24 +81,24 @@ namespace ECommerse.Models
         /// <returns>List of OVMs, one for each Order</returns>
         public List<OrderViewModel> OrderList()
         {
+            //will test around this to get actually only 20
+            //IEnumerable<Order> RecentOrders = _context.Orders.OrderByDescending(o => o.ID).Take(20);
             IEnumerable<Order> RecentOrders = _context.Orders.ToList();
             List<OrderViewModel> lovm = new List<OrderViewModel>();
             List<Product> prods = _context.Products.ToList();
             List<OrderItem> loi = _context.OrderItems.ToList();
-
+       
             foreach (var item in RecentOrders)
             {
                 if (item != null)
                 {
                     OrderViewModel ovm = new OrderViewModel();
-                    //was getting error when going directly to the ovm.UserOrder
+                   //was getting error when going directly to the ovm.UserOrder
                     Order ord = new Order();
                     ord.ShippingAddress = item.ShippingAddress;
                     ord.Total = item.Total;
-                    ord.ID = item.ID;
                     ord.UserEmail = item.UserEmail;
                     ovm.UserOrder = ord;
-                    
 
                     ovm.OrderList = loi.Where(o => o.OrderID == item.ID).ToList();
                     //List<Product> prods = new List<Product>();
@@ -110,9 +110,12 @@ namespace ECommerse.Models
                     }
                     lovm.Add(ovm);
                 }
+
+
+                 
             }
             return lovm;
-
+       
         }
 
         public List<OrderItem> GetOrderItems(int orderID)
@@ -120,49 +123,5 @@ namespace ECommerse.Models
             var items = _context.OrderItems.Where(item => item.OrderID == orderID);
             return items.ToList();
         }
-
-        public OrderViewModel OrderDetails(int orderID)
-        {
-
-            OrderViewModel ovm = new OrderViewModel();
-            List<Product> prods = _context.Products.ToList();
-            Order order = _context.Orders.FirstOrDefault(o => o.ID == orderID);
-            ovm.OrderList = GetOrderItems(orderID);
-            decimal total = 0;
-
-            foreach (var item in ovm.OrderList)
-            {
-                Product product = prods.FirstOrDefault(p => p.ID == item.ProductID);
-                ovm.Products.Add(product);
-            }
-
-            foreach (var item in ovm.Products)
-            {
-                total += item.Price;
-            }
-            order.Total = total;
-
-            ovm.UserOrder = order;
-            return ovm;
-
-        }
-
-        public List<Order> GetLastThreeOrders(string email)
-        {
-            return _context.Orders.Where(o => o.UserEmail == email)
-                .OrderByDescending(x => x.ID).Take(3).ToList();
-        }
-
-        public List<List<OrderItem>> GetMultipleOrderItemLists(List<Order> orders)
-        {
-            List<List<OrderItem>> orderItems = new List<List<OrderItem>>();
-            foreach (Order order in orders)
-            {
-                orderItems.Add(GetOrderItems(order.ID));
-            }
-            return orderItems;
-        }
-
     }
-
 }
