@@ -17,6 +17,13 @@ namespace ECommerse.Models
         [Display(Name = "Shipping Address")]
         public string ShippingAddress { get; set; }
 
+
+        [Required]
+        public string City { get; set; }
+
+        [Required]
+        public string Zip { get; set; }
+
         [Required]
         [Display(Name = "Card Info")]
         public string CardNumber { get; set; }
