@@ -80,7 +80,9 @@ namespace ECommerse.Models
         /// </summary>
         /// <returns>List of OVMs, one for each Order</returns>
         public List<OrderViewModel> OrderList()
-        {           
+        {
+            //will test around this to get actually only 20
+            //IEnumerable<Order> RecentOrders = _context.Orders.OrderByDescending(o => o.ID).Take(20);
             IEnumerable<Order> RecentOrders = _context.Orders.ToList();
             List<OrderViewModel> lovm = new List<OrderViewModel>();
             List<Product> prods = _context.Products.ToList();
