@@ -32,6 +32,8 @@ between the Products and Basket/Order.
 Deployed Site:
 http://ecommaxben.azurewebsites.net/
 
+
+[Vulnerability Report](https://github.com/MinMaxed/DinoStore/blob/newGH/vulnerability-report.md)
 # Getting Started
 TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
 1.	Installation process
