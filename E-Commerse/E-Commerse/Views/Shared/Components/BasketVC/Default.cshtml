@@ -9,7 +9,7 @@
 @foreach (var item in Model.BasketItems)
 {
     var product = Model.Products.Find(p => p.ID == item.ProductID);
-
+     
     <div>
         <div class="basketitem">
             <img src="@product.Image" alt="@product.Description" />
